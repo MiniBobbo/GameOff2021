@@ -1,5 +1,9 @@
+import { C } from "../C";
+import { UnitStatus } from "../Controls/UnitStatus";
+import { Unit } from "../Entity/Unit";
 import { GameScene } from "../scene/GameScene";
 import { BoardLocation } from "./BoardLocation";
+import { UnitSprite } from "./UnitSprite";
 
 export class Board {
     gs:GameScene;
@@ -16,6 +20,21 @@ export class Board {
         this.Width = width;
         this.Height = height;
         this.CreateLocations();
+
+        this.gs.events.on(BoardEvents.Create, this.CreateUnit, this);
+        
+    }
+
+    Dispose() {
+        this.gs.events.removeListener(BoardEvents.Create, this.CreateUnit, this);
+    }
+
+    CreateUnit(u:Unit, xx:number, yy:number) {
+        let s = new UnitSprite(this.gs);
+        s.AddUnit(u);
+        s.x = C.TtW(xx);
+        s.y = C.TtW(yy);
+        this.locations[xx][yy].UnitSprite = s;
     }
 
     CreateLocations() {
@@ -30,7 +49,7 @@ export class Board {
                     edge = true;
                 let l = this.locations[x][y] = new BoardLocation(this, x,y,edge ? LocationTypes.Edge : LocationTypes.Land);
                 this.locationSprites.push(l.s);
-                
+                this.gs.LocationLayer.add(l.s);
             }
         }
     }
@@ -42,4 +61,9 @@ export class Board {
 export enum LocationTypes {
     Land,
     Edge
+}
+
+export enum BoardEvents {
+    Create = "Create Unit",
+    Move = "Move Unit"
 }

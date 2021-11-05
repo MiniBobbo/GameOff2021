@@ -23,7 +23,7 @@ export class UnitStatus extends Phaser.GameObjects.Container {
             x:0,
             y:0
         })
-        .fillStyle(0x000000, .8);
+        .fillStyle(0x000066, .8);
         g.fillRect(0,0,100,100);
         this.add(g);
 

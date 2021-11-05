@@ -10,6 +10,7 @@
 import { Attack } from "./Attack";
 
 export class Unit {
+    Name:string;
     Type:UnitTypes;
     CurrentHP:number;
     MaxHP:number;

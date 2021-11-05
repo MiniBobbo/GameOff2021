@@ -37,12 +37,31 @@ Type - Physical, magical
 # Overview
 
 The game is played in a series of turns.  Each player (human or computer controlled) gets a chance to activate each of their units on the board.  
-A normal game has two main game states.  The first is the Strategy state where the player can select their units and take Actions.  The player can look around the board and interact with their units.  When two units from different teams are next to each other on the Board they can attack each other with their Interaction Action.   In this case the game moves to the Battle State.
+A normal game has two main game states.  The first is the Strategy Scene where the player can select their units and take Actions.  The player can look around the board and interact with their units.  When two units from different teams are next to each other on the Board they can attack each other with their Interaction Action.   In this case the game moves to the Battle Scene.
 
-The second state is the Battle State where two Units battle.  The attacker chooses the type of attack they want to use (melee or ranged) and the defender has to respond with that same type of attack if they are able.  Each Unit gets to make their Attack Number of attacks starting with the attacker.  After the attackers first attack if the defender still has HP remaining they respond with an attack.  If the attacker still has HP and attacks remaining they respond and so on until one Unit is defeated or both units have exhausted all their attacks.
+The second state is the Battle Scene where two Units battle.  The attacker chooses the type of attack they want to use (melee or ranged) and the defender has to respond with that same type of attack if they are able.  Each Unit gets to make their Attack Number of attacks starting with the attacker.  After the attackers first attack if the defender still has HP remaining they respond with an attack.  If the attacker still has HP and attacks remaining they respond and so on until one Unit is defeated or both units have exhausted all their attacks.
 
-# Strategy State
+# Strategy Scene
 Phase 1 - Create a board.  Fill board with generic locations.  Display those locations to the screen.
 Phase 2 - Place a generic unit on the board and move it around.
 
-# Battle State
+In for these objects, x and y are always the pixel locations and xx and yy are the board locations.
+
+# Battle Scene
+
+
+# Strategy Scene State Manager
+The strategy scene state manager is going to manage the rather complicated UI states of the Strategy Scene.  The State that the game is in is going to change around all the listeners that are active.  For instance, if we are in the select state, when we hover over a unit we will get information about that unit.  From the Select state we can interact with the buttons (like the end turn button) and transition to the EndTurn state.  If the player clicks on one of their units we go into the UnitSelected state and display the options for that unit.
+
+States
+Move a unit = Selection (pick a unit) -> UnitSelected (pick move from options) ->  ChooseMoveLocation (click on a spot) -> Wait (Wait for move to complete) -> Selection
+
+
+    Selection -> EndTurn, UnitSelected
+    UnitSelected -> ChooseMove
+    EndTurn,
+    Summon,
+    ChooseMoveLocation,
+    ChooseAttack,
+    Wait
+
