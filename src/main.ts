@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import { GameScene } from "./scene/GameScene";
 import { PreloadScene } from "./scene/Preload";
+import { TestScene } from "./scene/TestScene";
 
 
 class Main extends Phaser.Game {
@@ -8,21 +9,10 @@ class Main extends Phaser.Game {
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
       parent:"root",
-      width: 600,
-      height: 600,
-      zoom:1,
+      width: 400,
+      height: 400,
+      zoom:2,
       dom: {createContainer:true},
-      physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            // debug: true
-        }
-      },
-      // scene:{
-      //   // preload:preload,
-      //   // game:Game
-      // },
       render: {
         pixelArt:true,
         roundPixels:true
@@ -34,6 +24,7 @@ class Main extends Phaser.Game {
 
     this.scene.add("preload", PreloadScene, true);
     this.scene.add("game", GameScene, false);
+    this.scene.add("test", TestScene, false);
     this.scene.start("preload");
     }
 
