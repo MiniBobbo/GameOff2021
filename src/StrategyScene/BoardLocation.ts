@@ -13,6 +13,7 @@ export class BoardLocation {
     y:number;
     yy:number;
     UnitSprite:UnitSprite;
+    highlighted:boolean = false;
 
     constructor(b:Board, xx:number, yy:number, type:LocationTypes = LocationTypes.Land) {
         this.b = b;
@@ -30,12 +31,16 @@ export class BoardLocation {
         this.s.setInteractive();
         this.s.on('pointerover', () => {b.gs.events.emit(SceneEvents.HoverOver, this);});
         this.s.on('pointerout', () => {b.gs.events.emit(SceneEvents.HoverLeave);});
-        this.s.on('pointerdown', () => {b.gs.events.emit(SceneEvents.Clicked, this);});
+        this.s.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {b.gs.events.emit(SceneEvents.Clicked, this);
+        e.stopPropagation();});
         this.s.on('destroy', this.Destroy, this);
+        this.s.on('highlight', (color:number)=>{this.highlighted = true; this.s.setTint(color)}, this);
+        this.b.gs.events.on(SceneEvents.ClearHighlights, () => {this.highlighted = false; this.s.setTint(0xffffff);});
 
     }
 
     Destroy() {
         this.s.removeAllListeners();
+        this.b.gs.events.removeListener(SceneEvents.ClearHighlights);
     }
 }

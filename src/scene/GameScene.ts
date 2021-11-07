@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { ActionControl } from '../Controls/ActionControl';
 import { UnitStatus } from '../Controls/UnitStatus';
 import { StateManager } from '../Managers/StateManager';
 
@@ -10,6 +11,7 @@ export class GameScene extends Phaser.Scene {
     SM:StateManager;
     PrimaryUnitSatus:UnitStatus;
     SecondaryUnitSatus:UnitStatus;
+    Actions:ActionControl;
 
     preload() {
         
@@ -25,7 +27,8 @@ export class GameScene extends Phaser.Scene {
         this.SecondaryUnitSatus = new UnitStatus(this, 298, 298).setVisible(false).setScrollFactor(0);
         this.HudLayer.add(this.PrimaryUnitSatus);
         this.HudLayer.add(this.SecondaryUnitSatus);
-
+        this.Actions = new ActionControl(this);
+        this.HudLayer.add(this.Actions);
     }
 
     update(time:number, dt:number) {
@@ -40,6 +43,7 @@ export enum SceneEvents {
     HoverOver = 'hoverover',
     HoverLeave = 'hoverleave',
     ChangeState = 'changestate',
-    Finished = 'finished'
+    Finished = 'finished',
+    ClearHighlights = 'clearhighlights'
     
 }
