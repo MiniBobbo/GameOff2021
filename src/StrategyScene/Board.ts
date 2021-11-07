@@ -37,7 +37,38 @@ export class Board {
         s.AddUnit(u);
         s.x = C.TtW(xx);
         s.y = C.TtW(yy);
+        s.xx = xx;
+        s.yy = yy;
         this.locations[xx][yy].UnitSprite = s; 
+    }
+
+    MoveUnit(unit:UnitSprite, xx:number, yy:number) {
+        //Check if the spot is available.
+        if(this.locations[xx][yy].UnitSprite != null) {
+            //Somehow we are trying to move a unit onto a spot that already contains a unit.
+            //This shouldn't happen as it is handled in the highlighting phase, but this check will 
+            //help me find a problem where I forget to reset a flag or something...
+            console.log(`Trying to move unit ${unit.name} into location ${xx}, ${yy} which already contains ${this.locations[xx][yy].UnitSprite.name}`);
+            return;
+        } 
+        //Clear the unit's current location
+        this.locations[unit.xx][unit.yy].UnitSprite = null;
+        //Load the unit into the new location
+        this.locations[xx][yy].UnitSprite = unit;
+
+        unit.yy = yy;
+        unit.xx = xx;
+
+        //Move the sprite.
+        // this.gs.tweens.add({
+        //     targets:unit.s,
+        //     x:this.locations[xx][yy].x, 
+        //     y:this.locations[xx][yy].y,
+        //     duration:300
+        // });
+            unit.x = this.locations[xx][yy].x; 
+            unit.y = this.locations[xx][yy].y;
+
     }
 
     CreateLocations() {
@@ -67,13 +98,18 @@ export class Board {
      */
     FindMoveLocations(bl:BoardLocation, move:number, targetUnits:boolean = false) {
         let testLocations:Array<{x:number, y:number}> = [];
-        testLocations.push({x:bl.x, y:bl.y});
         for(let x = 1; x < this.Width+1; x++) {
             for(let y = 1; y < this.Width+1; y++) {
                 this.floodFillLocations[x][y] = -1;
             }
         }
-        this.floodFillLocations[bl.x][bl.y] = move;
+        this.floodFillLocations[bl.xx][bl.yy] = move;
+        this.testLocation(move, bl.xx-1, bl.yy, testLocations, targetUnits);
+        this.testLocation(move, bl.xx+1, bl.yy, testLocations, targetUnits);
+        this.testLocation(move, bl.xx, bl.yy-1, testLocations, targetUnits);
+        this.testLocation(move, bl.xx, bl.yy+1, testLocations, targetUnits);
+
+
         while(testLocations.length > 0) {
             var test = testLocations.shift();
             var currentMove = this.floodFillLocations[test.x][test. y];
@@ -95,7 +131,7 @@ export class Board {
      * I may wany spells or other things to pick units.
      */
     private testLocation(move:number, xx:number, yy:number, testLocations:Array<{x:number, y:number}>, targetUnits:boolean) {
-        if(this.floodFillLocations[xx][yy] != -999) {
+        if(this.floodFillLocations[xx][yy] != -99) {
             //Find the new movement value
             move -= 1;
             if(move >= 0 && move > this.floodFillLocations[xx][yy] && (targetUnits || this.locations[xx][yy].UnitSprite == null)) {

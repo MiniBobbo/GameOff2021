@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { ActionControl } from '../Controls/ActionControl';
 import { UnitStatus } from '../Controls/UnitStatus';
 import { StateManager } from '../Managers/StateManager';
+import { Board } from '../StrategyScene/Board';
 
 export class GameScene extends Phaser.Scene {
     p:{x:number, y:number};
@@ -12,6 +13,7 @@ export class GameScene extends Phaser.Scene {
     PrimaryUnitSatus:UnitStatus;
     SecondaryUnitSatus:UnitStatus;
     Actions:ActionControl;
+    b:Board;
 
     preload() {
         

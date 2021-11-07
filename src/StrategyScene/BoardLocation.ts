@@ -1,4 +1,3 @@
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 import { C } from "../C";
 import { SceneEvents } from "../scene/GameScene";
 import { Board, LocationTypes } from "./Board";
@@ -34,7 +33,7 @@ export class BoardLocation {
         this.s.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {b.gs.events.emit(SceneEvents.Clicked, this);
         e.stopPropagation();});
         this.s.on('destroy', this.Destroy, this);
-        this.s.on('highlight', (color:number)=>{this.highlighted = true; this.s.setTint(color)}, this);
+        this.s.on(BoardLocationEvents.Highlight, (color:number)=>{this.highlighted = true; this.s.setTint(color)}, this);
         this.b.gs.events.on(SceneEvents.ClearHighlights, () => {this.highlighted = false; this.s.setTint(0xffffff);});
 
     }
@@ -43,4 +42,10 @@ export class BoardLocation {
         this.s.removeAllListeners();
         this.b.gs.events.removeListener(SceneEvents.ClearHighlights);
     }
+
+}
+export enum BoardLocationEvents {
+    Highlight = 'highlight'
+
+    
 }

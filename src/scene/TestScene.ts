@@ -8,8 +8,6 @@ import { UnitSprite } from "../StrategyScene/UnitSprite";
 import { GameScene, SceneEvents } from "./GameScene";
 
 export class TestScene extends GameScene {
-    b:Board;
-    next:boolean = false;
     t:Phaser.GameObjects.Text;
 
     create() {
@@ -21,7 +19,7 @@ export class TestScene extends GameScene {
         // let us = new UnitSprite(this);
 
         let u = UnitFactory.CreateUnit(UnitTypes.TestUnit);
-        this.b.CreateUnit(u, 5,3);
+        this.b.CreateUnit(u, 1,1);
         
         this.time.addEvent({
             delay:2000,
