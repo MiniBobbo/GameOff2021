@@ -25,6 +25,7 @@ export class SelectionState extends State {
                 this.gs.PrimaryUnitSatus.setVisible(false);
         }, this);
 
+        this.gs.events.emit(SceneEvents.EnableEndTurn);
     }
 
     LeaveState() {
@@ -32,5 +33,6 @@ export class SelectionState extends State {
         this.gs.PrimaryUnitSatus.removeAllListeners();
         this.gs.events.removeListener(SceneEvents.HoverOver);
         this.gs.events.removeListener(SceneEvents.HoverLeave);
+        this.gs.events.emit(SceneEvents.DisableEndTurn);
     }
 }

@@ -1,11 +1,13 @@
+import { Player } from "../Entity/Player";
 import { Unit, UnitTypes } from "../Entity/Unit";
 import { GameScene } from "../scene/GameScene";
 import { UnitSprite } from "../StrategyScene/UnitSprite";
 
 export class UnitFactory {
-    static CreateUnit(u:UnitTypes):Unit {
+    static CreateUnit(u:UnitTypes, p:Player):Unit {
         let unit:Unit = new Unit();
         unit.Type = u;
+        unit.ControllingPlayer = p;
         switch (u) {
             case UnitTypes.TestUnit:
                 unit.Name = 'Test Unit';

@@ -1,6 +1,7 @@
 import { SceneEvents } from "../scene/GameScene";
 import { Board } from "../StrategyScene/Board";
 import { BoardLocationEvents, BoardLocation } from "../StrategyScene/BoardLocation";
+import { UnitSpriteEvents } from "../StrategyScene/UnitSprite";
 import { State } from "./State";
 import { StateTypes } from "./StateManager";
 
@@ -32,9 +33,9 @@ export class ChooseMoveLocation extends State {
         if(location.highlighted) {
             let board = this.m.gs.b;
             board.MoveUnit(this.m.PrimaryUnit, location.xx, location.yy);
+            this.m.PrimaryUnit.emit(UnitSpriteEvents.MoveComplete);
         }
         this.gs.events.emit(SceneEvents.ClearHighlights);
-
         this.m.ChangeState(StateTypes.Selection);
     }
 

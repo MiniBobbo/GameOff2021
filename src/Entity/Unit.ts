@@ -8,6 +8,7 @@
 // Skills - A catch all area that changes the way this unit acts.  For instance, the Swift skill may let a unit take the Move Action after the Interact Action, which is normally not allowed.
 
 import { Attack } from "./Attack";
+import { Player } from "./Player";
 
 export class Unit {
     Name:string;
@@ -21,6 +22,7 @@ export class Unit {
     Skills:string[];
     MeleeAttack:Attack;
     RangedAttack:Attack;
+    ControllingPlayer:Player;
 
     constructor() {
         this.MovementType = MovementTypes.Ground;

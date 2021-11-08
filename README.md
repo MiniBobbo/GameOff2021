@@ -44,6 +44,7 @@ The second state is the Battle Scene where two Units battle.  The attacker choos
 # Strategy Scene
 Phase 1 - Create a board.  Fill board with generic locations.  Display those locations to the screen.
 Phase 2 - Place a generic unit on the board and move it around.
+Phase 3 - Units only get one move.  End Turn button added.  After new turn units get their actions back.
 
 In for these objects, x and y are always the pixel locations and xx and yy are the board locations.
 

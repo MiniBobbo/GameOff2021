@@ -18,7 +18,11 @@ EnterState() {
     });
     this.gs.input.on('pointerdown', () => {
         this.m.ChangeState(StateTypes.Selection);
-    })
+    });
+
+    this.gs.events.on(SceneEvents.Clicked, () => {
+        this.m.ChangeState(StateTypes.Selection);
+    });
 
 }
 
@@ -26,6 +30,7 @@ LeaveState() {
     this.gs.events.removeListener(SceneEvents.ClickedAction);
     this.gs.input.removeListener('pointerdown');
     this.gs.Actions.Deactivate();
+    this.gs.events.removeListener(SceneEvents.Clicked);
 }
 
 }

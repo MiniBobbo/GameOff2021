@@ -1,6 +1,7 @@
 import { visitLexicalEnvironment } from "typescript";
 import { C } from "../C";
 import { UnitStatus } from "../Controls/UnitStatus";
+import { Player } from "../Entity/Player";
 import { Unit } from "../Entity/Unit";
 import { GameScene } from "../scene/GameScene";
 import { BoardLocation } from "./BoardLocation";
@@ -13,6 +14,7 @@ export class Board {
     Width:number;
     Height:number;
     floodFillLocations:Array<Array<number>>;
+    AllUnitSprites:Array<UnitSprite>;
 
 
     constructor(gs:GameScene, width:number, height:number) {
@@ -20,6 +22,7 @@ export class Board {
         this.locations = [];
         this.floodFillLocations = [];
         this.locationSprites = [];
+        this.AllUnitSprites = [];
         this.Width = width;
         this.Height = height;
         this.CreateLocations();
@@ -39,7 +42,9 @@ export class Board {
         s.y = C.TtW(yy);
         s.xx = xx;
         s.yy = yy;
+        s.s.setTint(s.u.ControllingPlayer.TeamColor);
         this.locations[xx][yy].UnitSprite = s; 
+        this.AllUnitSprites.push(s);
     }
 
     MoveUnit(unit:UnitSprite, xx:number, yy:number) {

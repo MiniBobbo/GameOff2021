@@ -12,9 +12,6 @@ export class ActionControl extends Phaser.GameObjects.Container {
         this.y = -1000;
 
         this.MoveAction = gs.add.bitmapText(0,-45, '6px', 'Move').setInteractive();
-        this.MoveAction.on('pointerover', () => {this.MoveAction.setTint(0xff0000);});
-        this.MoveAction.on('pointerout', () => {this.MoveAction.setTint(0xffffff);});
-        this.MoveAction.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {gs.events.emit(SceneEvents.ClickedAction, ActionTypes.Move); e.stopPropagation();});
         this.add(this.MoveAction);
     }
 
@@ -27,10 +24,23 @@ export class ActionControl extends Phaser.GameObjects.Container {
         //     duration:100
         // });
         this.setPosition(bl.x, bl.y);
+        if(bl.UnitSprite.MoveAction) {
+            this.MoveAction.on('pointerover', () => {this.MoveAction.setTint(0xff0000);});
+            this.MoveAction.on('pointerout', () => {this.MoveAction.setTint(0xffffff);});
+            this.MoveAction.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {this.gs.events.emit(SceneEvents.ClickedAction, ActionTypes.Move); e.stopPropagation();});
+            this.MoveAction.alpha = 1;
+        } else {
+            this.MoveAction.alpha = .5;
+
+        }
     }
 
     Deactivate() {
-        this.setPosition(-1000,-1000);
+        this.MoveAction.removeListener('pointerover');
+        this.MoveAction.removeListener('pointerout');
+        this.MoveAction.removeListener('pointerdown');
+        this.MoveAction.setTint(0xffffff);
+    this.setPosition(-1000,-1000);
     }
 }
 
