@@ -10,7 +10,9 @@ EnterState() {
             case ActionTypes.Move:
                 this.m.ChangeState(StateTypes.ChooseMoveLocation);
                 break;
-        
+            case ActionTypes.Attack:
+                this.m.ChangeState(StateTypes.ChooseAttackTarget);
+            break;
             default:
                 break;
         }

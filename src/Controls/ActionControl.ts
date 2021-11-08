@@ -4,6 +4,7 @@ import { BoardLocation } from "../StrategyScene/BoardLocation";
 export class ActionControl extends Phaser.GameObjects.Container {
     gs:GameScene;
     MoveAction:Phaser.GameObjects.BitmapText;
+    AttackAction:Phaser.GameObjects.BitmapText;
     constructor(gs:GameScene) {
         super(gs);
         this.gs = gs;
@@ -13,6 +14,8 @@ export class ActionControl extends Phaser.GameObjects.Container {
 
         this.MoveAction = gs.add.bitmapText(0,-45, '6px', 'Move').setInteractive();
         this.add(this.MoveAction);
+        this.AttackAction = gs.add.bitmapText(45,0, '6px', 'Attack').setInteractive();
+        this.add(this.AttackAction);
     }
 
     Activate(bl:BoardLocation) {
@@ -23,7 +26,7 @@ export class ActionControl extends Phaser.GameObjects.Container {
         //     scaleY:1,
         //     duration:100
         // });
-        this.setPosition(bl.x, bl.y);
+        this.setPosition(bl.x-15, bl.y-20);
         if(bl.UnitSprite.MoveAction) {
             this.MoveAction.on('pointerover', () => {this.MoveAction.setTint(0xff0000);});
             this.MoveAction.on('pointerout', () => {this.MoveAction.setTint(0xffffff);});
@@ -31,8 +34,16 @@ export class ActionControl extends Phaser.GameObjects.Container {
             this.MoveAction.alpha = 1;
         } else {
             this.MoveAction.alpha = .5;
-
         }
+        if(bl.UnitSprite.InteractAction) {
+            this.AttackAction.on('pointerover', () => {this.AttackAction.setTint(0xff0000);});
+            this.AttackAction.on('pointerout', () => {this.AttackAction.setTint(0xffffff);});
+            this.AttackAction.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {this.gs.events.emit(SceneEvents.ClickedAction, ActionTypes.Attack); e.stopPropagation();});
+            this.AttackAction.alpha = 1;
+        } else {
+            this.AttackAction.alpha = .5;
+        }
+
     }
 
     Deactivate() {
@@ -46,5 +57,6 @@ export class ActionControl extends Phaser.GameObjects.Container {
 
 export enum ActionTypes {
     Move = 'move',
-    Cancel = 'cancel'
+    Cancel = 'cancel',
+    Attack = 'attack'
 }

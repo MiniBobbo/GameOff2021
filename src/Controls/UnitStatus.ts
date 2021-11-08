@@ -8,24 +8,26 @@ export class UnitStatus extends Phaser.GameObjects.Container {
     MagicResist:Phaser.GameObjects.BitmapText;
     Movement:Phaser.GameObjects.BitmapText;
     MovementType:Phaser.GameObjects.BitmapText;
+    Unit:Unit;
+
+    private g:Phaser.GameObjects.Graphics;
 
 
-
-    LabelX:number = 3;
-    LabelY:number = 10;
-    ValueX:number = 50;
-    SpacingY:number = 10;
+    private LabelX:number = 3;
+    private LabelY:number = 10;
+    private ValueX:number = 50;
+    private SpacingY:number = 10;
     
     constructor(scene:Phaser.Scene, x?:number, y?:number, children?:Phaser.GameObjects.GameObject[]) {
         super(scene, x, y, children);
         scene.add.existing(this);
-        let g = scene.add.graphics({
+        this.g = scene.add.graphics({
             x:0,
             y:0
         })
-        .fillStyle(0x000066, .8);
-        g.fillRect(0,0,100,100);
-        this.add(g);
+        .fillStyle(0xFFFFFF, .8);
+        this.g.fillRect(0,0,100,100);
+        this.add(this.g);
 
         let bfloader = {
             font:scene.cache.bitmapFont.get('6px')
@@ -67,7 +69,10 @@ export class UnitStatus extends Phaser.GameObjects.Container {
     }
 
     LoadUnit(u:Unit) {
+        this.Unit = u;
         this.Name.setText(UnitTypes[u.Type]);
+        this.g.fillStyle(u.ControllingPlayer.TeamColor);
+        this.g.fillRect(0,0,100,100);
         this.HP.setText(u.CurrentHP.toString());
         this.MaxHP.setText(u.MaxHP.toString());
         this.Armor.setText(u.Armor.toString());

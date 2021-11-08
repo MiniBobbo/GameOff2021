@@ -34,7 +34,7 @@ export class UnitSprite extends Phaser.GameObjects.Container {
     MoveComplete() {
         this.MoveAction = false;
 
-        if(this.InteractAction)
+        if(!this.InteractAction)
             this.s.alpha = .7;
     }
 

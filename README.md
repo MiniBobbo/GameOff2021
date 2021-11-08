@@ -45,11 +45,13 @@ The second state is the Battle Scene where two Units battle.  The attacker choos
 Phase 1 - Create a board.  Fill board with generic locations.  Display those locations to the screen.
 Phase 2 - Place a generic unit on the board and move it around.
 Phase 3 - Units only get one move.  End Turn button added.  After new turn units get their actions back.
+Phase 4 - Units can attack units from the other team(s) with melee or ranged attacks.  Starts the battle scene.  Gets the message back when the battle scene is complete.
+Phase 5 - BugLord added.  BugLord can summon other units. 
 
 In for these objects, x and y are always the pixel locations and xx and yy are the board locations.
 
 # Battle Scene
-
+Phase 1 - The battle is resolved and the results are communicated back to the calling scene.
 
 # Strategy Scene State Manager
 The strategy scene state manager is going to manage the rather complicated UI states of the Strategy Scene.  The State that the game is in is going to change around all the listeners that are active.  For instance, if we are in the select state, when we hover over a unit we will get information about that unit.  From the Select state we can interact with the buttons (like the end turn button) and transition to the EndTurn state.  If the player clicks on one of their units we go into the UnitSelected state and display the options for that unit.

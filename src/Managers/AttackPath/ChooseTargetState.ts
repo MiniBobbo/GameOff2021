@@ -1,18 +1,16 @@
-import { SceneEvents } from "../scene/GameScene";
-import { Board } from "../StrategyScene/Board";
-import { BoardLocationEvents, BoardLocation } from "../StrategyScene/BoardLocation";
-import { UnitSpriteEvents } from "../StrategyScene/UnitSprite";
-import { State } from "./State";
-import { StateTypes } from "./StateManager";
+import { SceneEvents } from "../../scene/GameScene";
+import { BoardLocation, BoardLocationEvents } from "../../StrategyScene/BoardLocation";
+import { State } from "../State";
+import { StateTypes } from "../StateManager";
 
-export class ChooseMoveLocation extends State {
+export class ChooseTargetState extends State {
     EnterState() {
         //The chosen unit should be in the this.m.PrimaryUnit location.  Check movement from there.
         let xx = this.m.PrimaryUnit.xx;
         let yy = this.m.PrimaryUnit.yy;
 
         let board = this.m.gs.b;
-        board.FindMoveLocations(board.locations[xx][yy], 4, false);
+        board.FindMoveLocations(board.locations[xx][yy], 1, true);
         for(let x = 1; x < board.Width + 1; x++) {
             for(let y = 1; y < board.Height + 1; y++) {
                 if(board.floodFillLocations[x][y] >=0) {
@@ -36,22 +34,22 @@ export class ChooseMoveLocation extends State {
                 this.gs.SecondaryUnitSatus.setVisible(false);
         }, this);
 
-    }
 
+    }
     clicked(location:BoardLocation) {
-        if(location.highlighted) {
-            let board = this.m.gs.b;
-            board.MoveUnit(this.m.PrimaryUnit, location.xx, location.yy);
-            this.m.PrimaryUnit.emit(UnitSpriteEvents.MoveComplete);
+        if(location.highlighted && location.UnitSprite != null && location.UnitSprite.u.ControllingPlayer != this.gs.CurrentPlayer) {
+            this.gs.SecondaryUnitSatus.LoadUnit(location.UnitSprite.u);
+            this.m.ChangeState(StateTypes.ChooseMeleeOrRanged);
+            return;
         }
         this.gs.events.emit(SceneEvents.ClearHighlights);
         this.m.ChangeState(StateTypes.Selection);
     }
 
     LeaveState() {
+        this.gs.events.emit(SceneEvents.ClearHighlights);
         this.gs.events.removeListener(SceneEvents.Clicked);
         this.gs.events.removeListener(SceneEvents.HoverLeave);
         this.gs.events.removeListener(SceneEvents.HoverOver);
-
     }
 }

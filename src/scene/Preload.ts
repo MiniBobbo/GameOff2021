@@ -69,8 +69,11 @@ export class PreloadScene extends Phaser.Scene {
         this.load.image('mapts', 'tiles.png');
         this.load.tilemapTiledJSON("testlevel", "testlevel.json");
         this.load.bitmapFont('6px', 'munro_0.png', 'munro.fnt');
+        this.load.bitmapFont('6px2', '6px2_0.png', '6px2.fnt');
+        this.load.bitmapFont('8px', '8px_0.png', '8px.fnt');
         this.load.image('tiletemp', 'tiletemp.png');
         this.load.image('unittemp', 'UnitTemp.png');
+        this.load.image('buttonback', 'buttonback.png');
         this.load.image('endturn', 'EndTurnButton.png');
         this.load.multiatlas('atlas', 'atlas.json');
     }

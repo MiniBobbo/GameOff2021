@@ -41,6 +41,12 @@ export class GameScene extends Phaser.Scene {
 
         this.events.on(SceneEvents.EndTurn, this.EndTurn, this);
         this.events.on('destroy', this.destroy, this);
+        this.events.on(SceneEvents.ChooseMeleeAttack, this.MeleeAttack, this);
+
+    }
+
+    MeleeAttack() {
+        
     }
 
     destroy() {
@@ -84,6 +90,8 @@ export enum SceneEvents {
     ClearHighlights = 'clearhighlights',
     EnableEndTurn = 'enableendturn',
     DisableEndTurn = 'disableendturn',
-    EndTurn = 'endturn'
+    EndTurn = 'endturn',
+    ChooseMeleeAttack = 'choosemelee',
+    ChooseRangedAttack = 'chooseranged'
     
 }

@@ -1,6 +1,8 @@
 import { Unit } from "../Entity/Unit";
 import { GameScene, SceneEvents } from "../scene/GameScene";
 import { UnitSprite } from "../StrategyScene/UnitSprite";
+import { ChooseMeleeRangedState } from "./AttackPath/ChooseMeleeRangedState";
+import { ChooseTargetState } from "./AttackPath/ChooseTargetState";
 import { ChooseActionState } from "./ChooseActionState";
 import { ChooseMoveLocation } from "./ChooseMoveLocation";
 import { SelectionState } from "./SelectionState";
@@ -22,6 +24,8 @@ export class StateManager {
         this.States.set(StateTypes.Wait, new WaitState(gs, this));
         this.States.set(StateTypes.ChooseAction, new ChooseActionState(gs, this));
         this.States.set(StateTypes.ChooseMoveLocation, new ChooseMoveLocation(gs, this));
+        this.States.set(StateTypes.ChooseAttackTarget, new ChooseTargetState(gs, this));
+        this.States.set(StateTypes.ChooseMeleeOrRanged, new ChooseMeleeRangedState(gs, this));
         this.ChangeState(StateTypes.Wait);
     }
 
@@ -44,6 +48,8 @@ export enum StateTypes {
     Summon,
     ChooseAction,
     ChooseMoveLocation,
+    ChooseAttackTarget,
+    ChooseMeleeOrRanged,
     Wait
     
 }

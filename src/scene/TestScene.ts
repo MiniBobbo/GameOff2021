@@ -25,8 +25,10 @@ export class TestScene extends GameScene {
         let u = UnitFactory.CreateUnit(UnitTypes.TestUnit, this.CurrentPlayer);
         let u2 = UnitFactory.CreateUnit(UnitTypes.TestUnit, this.CurrentPlayer);
         this.b.CreateUnit(u, 1,1);
-        this.b.CreateUnit(u2, 5,5);
+        this.b.CreateUnit(u2, 5,6);
         
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.TestUnit, this.Players[1]), 7,7);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.TestUnit, this.Players[1]), 6,6);
         this.time.addEvent({
             delay:500,
             callback:() => {this.events.emit(SceneEvents.Finished);},
@@ -45,8 +47,11 @@ export class TestScene extends GameScene {
 
     CreatePlayers() {
         //Create players.
-        this.AddPlayer('Test Team', 0x999900);
+        this.AddPlayer('Good Team', 0xff00ff);
+        this.AddPlayer('Bad Team', 0xff0000);
         this.CurrentPlayer = this.Players[0];
+
+
 
     }
 
