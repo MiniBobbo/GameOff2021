@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "atlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 142,
+				"h": 66
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "ant_stand_0",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 140,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 140,
+						"h": 64
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 140,
+						"h": 64
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:cec79309f88f7ae7a442f48350048017:50876e5d217c5be2007478248f257069:cbce6b53f0f49e0bf15173c25c41f876$"
+	}
+}
