@@ -22,13 +22,13 @@ export class TestScene extends GameScene {
         this.t = this.add.text(0,0,'').setScrollFactor(0,0).setDepth(500);
         // let us = new UnitSprite(this);
 
-        let u = UnitFactory.CreateUnit(UnitTypes.TestUnit, this.CurrentPlayer);
-        let u2 = UnitFactory.CreateUnit(UnitTypes.TestUnit, this.CurrentPlayer);
+        let u = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
+        let u2 = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
         this.b.CreateUnit(u, 1,1);
         this.b.CreateUnit(u2, 5,6);
         
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.TestUnit, this.Players[1]), 7,7);
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.TestUnit, this.Players[1]), 6,6);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.ant, this.Players[1]), 7,7);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.ant, this.Players[1]), 6,6);
         this.time.addEvent({
             delay:500,
             callback:() => {this.events.emit(SceneEvents.Finished);},
@@ -37,6 +37,7 @@ export class TestScene extends GameScene {
 
         this.events.on(SceneEvents.ChangeState, (s:StateTypes) => { this.t.text = `State: ${StateTypes[s]}`});
 
+        this.scene.launch('battle', {attacker:u, defender:u2});
 
         // this.events.on(SceneEvents.Debug, (message:string) => { 
         //     this.t.text = message; 

@@ -76,5 +76,7 @@ export class PreloadScene extends Phaser.Scene {
         this.load.image('buttonback', 'buttonback.png');
         this.load.image('endturn', 'EndTurnButton.png');
         this.load.multiatlas('atlas', 'atlas.json');
+
+        this.anims.create({ key: 'ant_idle', frameRate: 60, frames: this.anims.generateFrameNames('atlas', { prefix: 'ant_stand_', end: 0}), repeat: 0 });
     }
 }

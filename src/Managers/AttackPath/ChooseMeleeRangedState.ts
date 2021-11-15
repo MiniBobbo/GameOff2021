@@ -9,9 +9,11 @@ export class ChooseMeleeRangedState extends State {
         this.control = new MeleeRangedControl(this.gs, this.gs.PrimaryUnitSatus.Unit, this.gs.SecondaryUnitSatus.Unit);
         this.gs.events.on(SceneEvents.Clicked, ()=> {this.m.ChangeState(StateTypes.Selection);});
         this.gs.events.on(SceneEvents.ChooseMeleeAttack, () =>{
+            console.log('Selected Melee');
             this.m.ChangeState(StateTypes.Wait);
         });
         this.gs.events.on(SceneEvents.ChooseRangedAttack, () =>{
+            console.log('Selected Ranged');
             this.m.ChangeState(StateTypes.Wait);
         });
         

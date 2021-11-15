@@ -10,8 +10,8 @@ export class UnitFactory {
         unit.Type = u;
         unit.ControllingPlayer = p;
         switch (u) {
-            case UnitTypes.TestUnit:
-                unit.Name = 'Test Unit';
+            case UnitTypes.ant:
+                unit.Name = 'Ant';
                 unit.MaxHP = unit.CurrentHP = 10;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
@@ -25,7 +25,6 @@ export class UnitFactory {
                 a.Type = AttackTypes.Physical;
                 unit.MeleeAttack = a;
                 break;
-        
             default:
                 break;
         }
