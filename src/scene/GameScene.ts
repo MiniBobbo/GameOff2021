@@ -25,6 +25,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     create() {
+        //@ts-ignore
+        // const grayscalePipeline = this.renderer.pipelines.get('gray');
         this.Players = [];
         this.LocationLayer = this.add.layer().setDepth(1);
         this.UnitLayer = this.add.layer().setDepth(2);

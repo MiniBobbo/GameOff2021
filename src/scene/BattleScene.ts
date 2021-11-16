@@ -34,7 +34,6 @@ export class BattleScene extends Phaser.Scene {
 
         this.battleType = units.type!=null? units.type:BattleType.Melee;
 
-        this.BattleLayer = this.add.layer([this.AttackerSprite.s, this.DefenderSprite.s]).setDepth(5);
         this.Attacker = units.attacker;
         this.Defender = units.defender;
 
@@ -73,16 +72,20 @@ export class BattleScene extends Phaser.Scene {
         this.SM.States.set(BattleStateTypes.DefenderAttack, new BattleDefenderAttackState(this, this.SM));
         this.SM.ChangeState(BattleStateTypes.Wait);
 
+        this.BattleLayer = this.add.layer([this.AttackerSprite.s, this.DefenderSprite.s]).setDepth(5);
 
         //Events
         this.events.on(SceneEvents.Finished, () => {
             this.NextStep();
         });
+        this.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);    
+
 
     }
     NextStep() {
         if(this.Attacker.Status == UnitStatus.Dead || this.Defender.Status == UnitStatus.Dead || (this.Attacker.CurrentAttacks == 0 && this.Defender.CurrentAttacks == 0)) {
             //End the battle and communicate results back to the main scene
+            
 
         } else {
             let currentAttacker:BattleSprite;
@@ -97,13 +100,13 @@ export class BattleScene extends Phaser.Scene {
             }
 
             if(currentAttacker.u.CurrentAttacks > 0) {
+                // this.attackersTurn = !this.attackersTurn;
+                currentAttacker.u.CurrentAttacks--;
                 this.result = this.GetAttackResult(currentAttacker, currentDefender, this.battleType);
                 currentAttacker.s.emit('attack', { currentDefender, type:this.battleType });
-                
             }
+            this.attackersTurn = !this.attackersTurn;
         }
-        this.attackersTurn = !this.attackersTurn;
-        this.NextStep();
     }
     GetAttackResult(a:BattleSprite, d:BattleSprite, type:BattleType): { hit: boolean; damage: number; } {
         //This is technically weighted to hitting since it should be over 0 and including 1, but I don't want to code around that and
@@ -125,7 +128,24 @@ export class BattleScene extends Phaser.Scene {
 
     }
 
+    ResolveAttack() {
+        console.log(this.result);
+        //Do damage to the defending unit if needed.
+        if(this.result.hit) {
+            this.DefenderSprite.u.Damage(this.result.damage);
+            if(this.DefenderSprite.u.Status == UnitStatus.Dead)
+                this.DefenderSprite.PlayAnimation('died');
+            else 
+                this.DefenderSprite.PlayAnimation('hit');
+        }
+        this.time.addEvent({
+            delay:500, 
+            callback: ()=> {this.NextStep();},
+            callbackScope:this
+        });
 
+        
+    }
 
     SetSprites() {
         this.AttackerSprite.s.play(`${this.Attacker.Type.toString()}_idle`);
@@ -139,3 +159,6 @@ export enum BattleType {
     Ranged
 }
 
+export enum BattleSceneEvents {
+    ResolveAttack = 'resolveattack'
+}

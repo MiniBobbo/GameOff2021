@@ -12,7 +12,7 @@ export class UnitFactory {
         switch (u) {
             case UnitTypes.ant:
                 unit.Name = 'Ant';
-                unit.MaxHP = unit.CurrentHP = 10;
+                unit.MaxHP = unit.CurrentHP = 35;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 5;

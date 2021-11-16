@@ -53,6 +53,17 @@ In for these objects, x and y are always the pixel locations and xx and yy are t
 # Battle Scene
 Phase 1 - The battle is resolved and the results are communicated back to the calling scene.
 
+The battle scene launches and goes through a common loop and then returns control to the Strategy Scene.  This is the basic loop:
+- Initialize (only on first run) - Sprites are created.  States are set.  Events are created.
+- Positioning - Sprites are positioned, units are loaded.  NextStep loop is started.
+    - NextStep  
+        - Determines if the battlescene should be ended (both units out of attacks or one is defeated.)
+        - Determines who is the next to attack and who defends
+        - If the attacker has attacks left, generate the results of the attack, then launch the sprites attack event.
+        - The sprite handles its own attack animation and fires the ResolveAttack event on the BattleScene when contact should be made.
+        - The ResolveAttack event applies the results of the attack to the defender, plays any animations, and then when it is complete launches the Finish event, which restarts the NextStep loop.
+
+
 # Strategy Scene State Manager
 The strategy scene state manager is going to manage the rather complicated UI states of the Strategy Scene.  The State that the game is in is going to change around all the listeners that are active.  For instance, if we are in the select state, when we hover over a unit we will get information about that unit.  From the Select state we can interact with the buttons (like the end turn button) and transition to the EndTurn state.  If the player clicks on one of their units we go into the UnitSelected state and display the options for that unit.
 
