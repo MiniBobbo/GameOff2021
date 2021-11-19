@@ -10,11 +10,11 @@ export class BattleWaitState extends BattleState {
             this.nextState = param as BattleStateTypes;
             else
             this.nextState = BattleStateTypes.Wait;
-        this.bs.events.on(SceneEvents.Finished, () => { this.m.ChangeState(this.nextState);});
+        this.bs.on(SceneEvents.Finished, () => { this.m.ChangeState(this.nextState);});
     }
 
     LeaveState( ) {
-        this.bs.events.removeListener(SceneEvents.Finished);
+        this.bs.removeListener(SceneEvents.Finished);
     }
 
 

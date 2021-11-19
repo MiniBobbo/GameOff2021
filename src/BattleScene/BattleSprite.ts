@@ -1,13 +1,14 @@
 import { Unit } from "../Entity/Unit";
 import { BattleScene, BattleSceneEvents } from "../scene/BattleScene";
+import { GameScene } from "../scene/GameScene";
 
 export class BattleSprite {
     s:Phaser.GameObjects.Sprite;
-    bs:BattleScene;
+    bs:GameScene;
 
     u:Unit;
 
-    constructor(bs:BattleScene) {
+    constructor(bs:GameScene) {
         this.bs = bs;
         this.s = bs.add.sprite(200,200, 'atlas', 'ant_stand_0');
         this.s.on('attack', () => {

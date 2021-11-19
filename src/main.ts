@@ -13,9 +13,9 @@ class Main extends Phaser.Game {
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
       parent:"root",
-      width: 400,
-      height: 400,
-      zoom:2,
+      width: 256,
+      height: 224,
+      zoom:3,
       dom: {createContainer:true},
       render: {
         pixelArt:true,
@@ -37,7 +37,6 @@ class Main extends Phaser.Game {
     
     this.scene.add("preload", PreloadScene, true);
     this.scene.add("game", GameScene, false);
-    this.scene.add("battle", BattleScene, false);
     this.scene.add("test", TestScene, false);
     this.scene.start("preload");
     }

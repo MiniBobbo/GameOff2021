@@ -1,19 +1,18 @@
-import { Scene } from "phaser";
 import { BattleSprite } from "../BattleScene/BattleSprite";
 import { Attack } from "../Entity/Attack";
 import { Unit, UnitStatus } from "../Entity/Unit";
 import { BattleAttackerAttackState } from "../Managers/BattleStates/BattleAttackerAttackState";
 import { BattleDefenderAttackState } from "../Managers/BattleStates/BattleDefenderAttackState";
-import { BattleState } from "../Managers/BattleStates/BattleState";
 import { BattleStateManager, BattleStateTypes } from "../Managers/BattleStates/BattleStateManager";
 import { BattleWaitState } from "../Managers/BattleStates/BattleWaitState";
 import { StateManager, StateTypes } from "../Managers/StateManager";
-import { UnitSprite } from "../StrategyScene/UnitSprite";
-import { SceneEvents } from "./GameScene";
+import { GameScene, SceneEvents } from "./GameScene";
 
-export class BattleScene extends Phaser.Scene {
+export class BattleScene extends Phaser.GameObjects.Container {
     BattleLayer:Phaser.GameObjects.Layer;
     SM:BattleStateManager;
+
+    private gs:GameScene;
 
     private init:boolean = false;
     private AttackerSprite:BattleSprite;
@@ -27,15 +26,19 @@ export class BattleScene extends Phaser.Scene {
 
     private battleType:BattleType;
 
-    create(units?:{attacker?:Unit, defender?:Unit, type?:BattleType}) {
+    constructor(gs:GameScene) {
+        super(gs, 0,-500);
+        this.gs = gs;
+        this.initFunction();
+    }
+
+    Start(attacker:Unit, defender:Unit, type:BattleType) {
         console.log('BattleScene started.');
-        if(!this.init)
-            this.initFunction();
 
-        this.battleType = units.type!=null? units.type:BattleType.Melee;
+        this.battleType = type!=null? type:BattleType.Melee;
 
-        this.Attacker = units.attacker;
-        this.Defender = units.defender;
+        this.Attacker = attacker;
+        this.Defender = defender;
 
         this.Attacker.ResetForBattle(this.battleType);
         this.Defender.ResetForBattle(this.battleType);
@@ -54,17 +57,20 @@ export class BattleScene extends Phaser.Scene {
         this.attackersTurn = true;
 
         this.SetSprites();
-        this.scene.moveAbove('game', 'battle');
-        this.events.emit(SceneEvents.Finished);
+        this.gs.events.emit(BattleSceneEvents.BattleFinish);
+        
 
     }
 
     private initFunction() {
         this.init = true;
-        this.AttackerSprite = new BattleSprite(this); 
-        this.DefenderSprite = new BattleSprite(this);
+        this.AttackerSprite = new BattleSprite(this.gs); 
+        this.DefenderSprite = new BattleSprite(this.gs);
         this.DefenderSprite.s.flipX = true; 
         this.SM = new BattleStateManager(this);
+
+        this.add(this.AttackerSprite.s);
+        this.add(this.DefenderSprite.s);
 
         //Create the state flows
         this.SM.States.set(BattleStateTypes.Wait, new BattleWaitState(this, this.SM));
@@ -72,21 +78,26 @@ export class BattleScene extends Phaser.Scene {
         this.SM.States.set(BattleStateTypes.DefenderAttack, new BattleDefenderAttackState(this, this.SM));
         this.SM.ChangeState(BattleStateTypes.Wait);
 
-        this.BattleLayer = this.add.layer([this.AttackerSprite.s, this.DefenderSprite.s]).setDepth(5);
+        this.setDepth(5);
+        this.gs.add.existing(this);
+
 
         //Events
-        this.events.on(SceneEvents.Finished, () => {
-            this.NextStep();
-        });
-        this.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);    
+        // this.gs.events.on(BattleSceneEvents.BattleFinish, () => {
+        //     this.NextStep();
+        // });
+        // this.gs.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);    
+
+        this.setVisible(false);
 
 
     }
     NextStep() {
         if(this.Attacker.Status == UnitStatus.Dead || this.Defender.Status == UnitStatus.Dead || (this.Attacker.CurrentAttacks == 0 && this.Defender.CurrentAttacks == 0)) {
             //End the battle and communicate results back to the main scene
-            
-
+            // s.ResolveBattle(this.Attacker, this.Defender);
+            this.gs.SM.ChangeState(StateTypes.Selection);
+            // s.events.emit(SceneEvents.Finished);
         } else {
             let currentAttacker:BattleSprite;
             let currentDefender:BattleSprite;
@@ -138,7 +149,7 @@ export class BattleScene extends Phaser.Scene {
             else 
                 this.DefenderSprite.PlayAnimation('hit');
         }
-        this.time.addEvent({
+        this.gs.time.addEvent({
             delay:500, 
             callback: ()=> {this.NextStep();},
             callbackScope:this
@@ -160,5 +171,6 @@ export enum BattleType {
 }
 
 export enum BattleSceneEvents {
-    ResolveAttack = 'resolveattack'
+    ResolveAttack = 'resolveattack',
+    BattleFinish = 'battlefinish'
 }

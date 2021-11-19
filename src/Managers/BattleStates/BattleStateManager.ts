@@ -22,8 +22,8 @@ export class BattleStateManager {
             this.CurrentState.LeaveState();
         this.CurrentState = this.States.get(newState);
         this.CurrentState.EnterState(param);
-        console.log(`Change State: ${BattleStateTypes[newState]}`);
-        this.bs.events.emit(SceneEvents.ChangeState, newState);
+        console.log(`Change Battle State: ${BattleStateTypes[newState]}`);
+        this.bs.emit(SceneEvents.ChangeState, newState);
     }
 
 

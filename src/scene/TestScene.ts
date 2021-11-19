@@ -37,7 +37,7 @@ export class TestScene extends GameScene {
 
         this.events.on(SceneEvents.ChangeState, (s:StateTypes) => { this.t.text = `State: ${StateTypes[s]}`});
 
-        this.scene.launch('battle', {attacker:u, defender:u2});
+        // this.scene.launch('battle', {attacker:u, defender:u2});
 
         // this.events.on(SceneEvents.Debug, (message:string) => { 
         //     this.t.text = message; 

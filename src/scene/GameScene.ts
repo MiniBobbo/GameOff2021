@@ -3,9 +3,11 @@ import { ActionControl } from '../Controls/ActionControl';
 import { UnitStatus } from '../Controls/UnitStatus';
 import { Player } from '../Entity/Player';
 import { EndTurnButton } from '../Controls/EndTurnButton';
-import { StateManager } from '../Managers/StateManager';
+import { StateManager, StateTypes } from '../Managers/StateManager';
 import { Board } from '../StrategyScene/Board';
 import { UnitSpriteEvents } from '../StrategyScene/UnitSprite';
+import { Unit } from '../Entity/Unit';
+import { BattleScene, BattleSceneEvents, BattleType } from './BattleScene';
 
 export class GameScene extends Phaser.Scene {
     Players:Array<Player>;
@@ -19,6 +21,7 @@ export class GameScene extends Phaser.Scene {
     SecondaryUnitSatus:UnitStatus;
     Actions:ActionControl;
     b:Board;
+    bs:BattleScene;
 
     preload() {
         
@@ -41,22 +44,55 @@ export class GameScene extends Phaser.Scene {
         this.HudLayer.add(this.Actions);
         this.HudLayer.add(new EndTurnButton(this).t);
 
+        this.bs = new BattleScene(this);
+
         this.events.on(SceneEvents.EndTurn, this.EndTurn, this);
         this.events.on('destroy', this.destroy, this);
         this.events.on(SceneEvents.ChooseMeleeAttack, this.MeleeAttack, this);
+        this.events.on(SceneEvents.ChooseRangedAttack, this.RangedAttack, this);
+
+
 
     }
 
-    MeleeAttack() {
+    RangedAttack() {
         
     }
+
+
+    MeleeAttack() {
+        // create(units?:{attacker?:Unit, defender?:Unit, type?:BattleType}) {
+        // this.scene.launch('battle', {attacker: this.PrimaryUnitSatus.Unit, defender:this.SecondaryUnitSatus.Unit, type:BattleType.Melee});
+        this.bs.Start(this.PrimaryUnitSatus.Unit, this.SecondaryUnitSatus.Unit, BattleType.Melee);
+    }
+
+    /**
+     * Resolves the 
+     * @param a Attacking unit
+     * @param d Defending unit
+     */
+    ResolveBattle(a:Unit, d:Unit) {
+        console.log(`BattleScene resolved.  Returning to main scene`);
+        this.bs.setVisible(false);
+        // this.time.addEvent({
+        //     delay:100,
+        //     callback: () => {
+        //         this.SM.ChangeState(StateTypes.Selection);
+        //     },
+        //     callbackScope:this
+        // });
+        this.events.once('test', () => {
+        this.SM.ChangeState(StateTypes.Selection);
+    }, this);
+        this.events.emit('test');
+    }   
 
     destroy() {
         this.events.removeListener(SceneEvents.EndTurn);
     }
 
     update(time:number, dt:number) {
-
+        var bs = this.bs;
     }
 
     EndTurn() {
