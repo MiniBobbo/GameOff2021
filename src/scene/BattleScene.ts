@@ -83,11 +83,11 @@ export class BattleScene extends Phaser.GameObjects.Container {
 
 
     }
+    
     NextStep() {
         if(this.Attacker.Status == UnitStatus.Dead || this.Defender.Status == UnitStatus.Dead || (this.Attacker.CurrentAttacks == 0 && this.Defender.CurrentAttacks == 0)) {
             //End the battle and communicate results back to the main scene
-            // s.ResolveBattle(this.Attacker, this.Defender);
-            this.gs.SM.ChangeState(StateTypes.Selection);
+            this.gs.SM.ChangeState(StateTypes.AttackResult, {attacker:this.Attacker, defender:this.Defender});
             // s.events.emit(SceneEvents.Finished);
         } else {
             let currentAttacker:BattleSprite;
@@ -131,7 +131,7 @@ export class BattleScene extends Phaser.GameObjects.Container {
     }
 
     ResolveAttack() {
-        console.log(this.result);
+        console.log(`${this.AttackerSprite.u.Name}, ${this.result.hit} Damage: ${this.result.damage}`);
         //Do damage to the defending unit if needed.
         if(this.result.hit) {
             this.DefenderSprite.u.Damage(this.result.damage);

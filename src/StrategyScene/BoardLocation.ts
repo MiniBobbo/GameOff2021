@@ -11,6 +11,7 @@ export class BoardLocation {
     xx:number;
     y:number;
     yy:number;
+    UnitID:number = -1;
     UnitSprite:UnitSprite;
     highlighted:boolean = false;
 

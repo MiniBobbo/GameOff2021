@@ -10,6 +10,7 @@ import { UnitSprite } from "./UnitSprite";
 export class Board {
     gs:GameScene;
     locations:Array<Array<BoardLocation>>;
+    AllLocations:Array<BoardLocation>;
     locationSprites:Array<Phaser.GameObjects.Sprite>;
     Width:number;
     Height:number;
@@ -22,6 +23,7 @@ export class Board {
         this.locations = [];
         this.floodFillLocations = [];
         this.locationSprites = [];
+        this.AllLocations = [];
         this.AllUnitSprites = [];
         this.Width = width;
         this.Height = height;
@@ -90,9 +92,43 @@ export class Board {
                 let l = this.locations[x][y] = new BoardLocation(this, x,y,edge ? LocationTypes.Edge : LocationTypes.Land);
                 this.floodFillLocations[x][y] = edge?-99:0;
                 this.locationSprites.push(l.s);
+                this.AllLocations.push(l);
                 this.gs.LocationLayer.add(l.s);
             }
         }
+    }
+
+    GetUnitSprite(id:number):UnitSprite {
+        let us:UnitSprite;
+        for(let i =0; i < this.AllUnitSprites.length; i++) {
+            if(this.AllUnitSprites[i].u.ID == id)
+            return this.AllUnitSprites[i];
+        }
+        return null;
+        // return this.AllUnitSprites.find(e=>{e.u.ID == id});
+    }
+    GetLocationBySpriteID(id:number):BoardLocation {
+        for(let i =0; i < this.AllLocations.length; i++) {
+            if(this.AllLocations[i].UnitSprite != null && this.AllLocations[i].UnitSprite.u.ID == id)
+            return this.AllLocations[i];
+        }
+        return null;
+        // return this.AllUnitSprites.find(e=>{e.u.ID == id});
+    }
+
+
+
+    KillUnitSprite(id:number) {
+        let u = this.GetUnitSprite(id);
+        let b = this.GetLocationBySpriteID(id);
+        //Hide the unit
+        this.gs.tweens.add({
+            targets:u,
+            alpha:0,
+            duration:500
+        });
+        //Clear the board location
+        b.UnitSprite = null;
     }
 
     /**

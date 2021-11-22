@@ -27,8 +27,8 @@ export class TestScene extends GameScene {
         this.b.CreateUnit(u, 1,1);
         this.b.CreateUnit(u2, 5,6);
         
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.ant, this.Players[1]), 7,7);
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.ant, this.Players[1]), 6,6);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.bug, this.Players[1]), 7,7);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.bug, this.Players[1]), 6,6);
         this.time.addEvent({
             delay:500,
             callback:() => {this.events.emit(SceneEvents.Finished);},

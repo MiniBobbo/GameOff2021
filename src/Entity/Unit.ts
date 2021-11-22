@@ -7,11 +7,13 @@
 // Ranged Attack - A Units ranged attack.  This is optional.
 // Skills - A catch all area that changes the way this unit acts.  For instance, the Swift skill may let a unit take the Move Action after the Interact Action, which is normally not allowed.
 
+import { C } from "../C";
 import { BattleType } from "../scene/BattleScene";
 import { Attack, AttackTypes } from "./Attack";
 import { Player } from "./Player";
 
 export class Unit {
+    ID:number;
     Name:string;
     Type:UnitTypes;
     CurrentHP:number;
@@ -33,6 +35,7 @@ export class Unit {
         this.MovementType = MovementTypes.Ground;
         this.Skills = [];
         this.Status = UnitStatus.Alive; 
+        this.ID = C.ID++;
 
         let m = new Attack();
         m.Name = 'None';
@@ -67,7 +70,8 @@ export class Unit {
 }
 
 export enum UnitTypes {
-    ant
+    ant,
+    bug
 }
 
 export enum UnitStatus {
