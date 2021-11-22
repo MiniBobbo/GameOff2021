@@ -6,6 +6,7 @@ import { StateTypes } from "../StateManager";
 export class ChooseTargetState extends State {
     EnterState() {
         //The chosen unit should be in the this.m.PrimaryUnit location.  Check movement from there.
+        
         let xx = this.m.PrimaryUnit.xx;
         let yy = this.m.PrimaryUnit.yy;
 

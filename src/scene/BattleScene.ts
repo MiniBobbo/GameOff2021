@@ -51,7 +51,6 @@ export class BattleScene extends Phaser.GameObjects.Container {
 
         this.attackersTurn = true;
 
-        this.gs.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);
 
         this.SetSprites();
         
@@ -81,6 +80,7 @@ export class BattleScene extends Phaser.GameObjects.Container {
 
         this.setVisible(false);
 
+        this.gs.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);
 
     }
     
