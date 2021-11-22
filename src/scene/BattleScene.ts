@@ -1,16 +1,11 @@
 import { BattleSprite } from "../BattleScene/BattleSprite";
 import { Attack } from "../Entity/Attack";
 import { Unit, UnitStatus } from "../Entity/Unit";
-import { BattleAttackerAttackState } from "../Managers/BattleStates/BattleAttackerAttackState";
-import { BattleDefenderAttackState } from "../Managers/BattleStates/BattleDefenderAttackState";
-import { BattleStateManager, BattleStateTypes } from "../Managers/BattleStates/BattleStateManager";
-import { BattleWaitState } from "../Managers/BattleStates/BattleWaitState";
 import { StateManager, StateTypes } from "../Managers/StateManager";
 import { GameScene, SceneEvents } from "./GameScene";
 
 export class BattleScene extends Phaser.GameObjects.Container {
     BattleLayer:Phaser.GameObjects.Layer;
-    SM:BattleStateManager;
 
     private gs:GameScene;
 
@@ -56,9 +51,18 @@ export class BattleScene extends Phaser.GameObjects.Container {
 
         this.attackersTurn = true;
 
+        this.gs.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);
+
         this.SetSprites();
-        this.gs.events.emit(BattleSceneEvents.BattleFinish);
         
+        this.gs.tweens.add({
+            targets:this,
+            y:0,
+            duration:500,
+            // ease:'quadinout',
+            onComplete:this.NextStep,
+            callbackScope:this
+        });
 
     }
 
@@ -67,26 +71,13 @@ export class BattleScene extends Phaser.GameObjects.Container {
         this.AttackerSprite = new BattleSprite(this.gs); 
         this.DefenderSprite = new BattleSprite(this.gs);
         this.DefenderSprite.s.flipX = true; 
-        this.SM = new BattleStateManager(this);
 
         this.add(this.AttackerSprite.s);
         this.add(this.DefenderSprite.s);
 
-        //Create the state flows
-        this.SM.States.set(BattleStateTypes.Wait, new BattleWaitState(this, this.SM));
-        this.SM.States.set(BattleStateTypes.AttackerAttack, new BattleAttackerAttackState(this, this.SM));
-        this.SM.States.set(BattleStateTypes.DefenderAttack, new BattleDefenderAttackState(this, this.SM));
-        this.SM.ChangeState(BattleStateTypes.Wait);
-
         this.setDepth(5);
         this.gs.add.existing(this);
 
-
-        //Events
-        // this.gs.events.on(BattleSceneEvents.BattleFinish, () => {
-        //     this.NextStep();
-        // });
-        // this.gs.events.on(BattleSceneEvents.ResolveAttack, this.ResolveAttack, this);    
 
         this.setVisible(false);
 
