@@ -8,6 +8,7 @@ import { Board } from '../StrategyScene/Board';
 import { UnitSpriteEvents } from '../StrategyScene/UnitSprite';
 import { Unit } from '../Entity/Unit';
 import { BattleScene, BattleSceneEvents, BattleType } from './BattleScene';
+import { C } from '../C';
 
 export class GameScene extends Phaser.Scene {
     Players:Array<Player>;
@@ -23,6 +24,15 @@ export class GameScene extends Phaser.Scene {
     b:Board;
     bs:BattleScene;
 
+    kUP:Phaser.Input.Keyboard.Key;
+    kDOWN:Phaser.Input.Keyboard.Key;
+    kLEFT:Phaser.Input.Keyboard.Key;
+    kRIGHT:Phaser.Input.Keyboard.Key;
+
+    
+
+
+    private _moveCamera:boolean = true;
 
     preload() {
         
@@ -37,8 +47,8 @@ export class GameScene extends Phaser.Scene {
         this.HudLayer = this.add.layer().setDepth(3);
         this.SM = new StateManager(this);
 
-        this.PrimaryUnitSatus = new UnitStatus(this, 2, 298).setVisible(false).setScrollFactor(0);
-        this.SecondaryUnitSatus = new UnitStatus(this, 298, 298).setVisible(false).setScrollFactor(0);
+        this.PrimaryUnitSatus = new UnitStatus(this, 2, 0).setVisible(false).setScrollFactor(0);
+        this.SecondaryUnitSatus = new UnitStatus(this, 200, 0).setVisible(false).setScrollFactor(0);
         this.HudLayer.add(this.PrimaryUnitSatus);
         this.HudLayer.add(this.SecondaryUnitSatus);
         this.Actions = new ActionControl(this);
@@ -51,9 +61,28 @@ export class GameScene extends Phaser.Scene {
         this.events.on('destroy', this.destroy, this);
         this.events.on(SceneEvents.ChooseMeleeAttack, this.MeleeAttack, this);
         this.events.on(SceneEvents.ChooseRangedAttack, this.RangedAttack, this);
+        this.events.on(SceneEvents.MoveCamera, () =>{this._moveCamera = true;}, this);
+        this.events.on(SceneEvents.FreezeCamera, () =>{this._moveCamera = false;}, this);
 
+        this.kUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.kDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.kLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.kRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    
+    }
 
-
+    update(time:number, dt:number) {
+        var bs = this.bs;
+        if(this._moveCamera) {
+            if(this.kDOWN.isDown)
+                this.cameras.main.scrollY += C.CAM_SCROLL_SPEED * (dt/1000);
+            if(this.kUP.isDown)
+                this.cameras.main.scrollY -= C.CAM_SCROLL_SPEED * (dt/1000);
+            if(this.kLEFT.isDown)
+                this.cameras.main.scrollX -= C.CAM_SCROLL_SPEED * (dt/1000);
+            if(this.kRIGHT.isDown)
+                this.cameras.main.scrollX += C.CAM_SCROLL_SPEED * (dt/1000);
+        }
     }
 
     RangedAttack() {
@@ -92,9 +121,6 @@ export class GameScene extends Phaser.Scene {
         this.events.removeListener(SceneEvents.EndTurn);
     }
 
-    update(time:number, dt:number) {
-        var bs = this.bs;
-    }
 
     EndTurn() {
         this.b.AllUnitSprites.forEach(e=> {
@@ -131,6 +157,8 @@ export enum SceneEvents {
     DisableEndTurn = 'disableendturn',
     EndTurn = 'endturn',
     ChooseMeleeAttack = 'choosemelee',
-    ChooseRangedAttack = 'chooseranged'
+    ChooseRangedAttack = 'chooseranged',
+    MoveCamera = 'movecamera',
+    FreezeCamera = 'freezecamera',
     
 }

@@ -3,15 +3,15 @@ import { GameScene, SceneEvents } from "../scene/GameScene";
 export class EndTurnButton {
     t:Phaser.GameObjects.Image;
     gs:GameScene;
-    defaultX:number = 300;
-    defaultY:number = 5;
+    defaultX:number = 200;
+    defaultY:number = 200;
 
     constructor(gs:GameScene) {
         this.gs = gs;
         this.t = gs.add.image(this.defaultX, this.defaultY, 'endturn')
         .setScrollFactor(0)
         .setOrigin(0)
-        .setScale(2)
+        .setScale(.5)
         .setInteractive();
 
         this.t.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {

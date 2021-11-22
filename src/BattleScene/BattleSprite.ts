@@ -5,7 +5,6 @@ import { GameScene } from "../scene/GameScene";
 export class BattleSprite {
     s:Phaser.GameObjects.Sprite;
     bs:GameScene;
-
     u:Unit;
 
     constructor(bs:GameScene) {

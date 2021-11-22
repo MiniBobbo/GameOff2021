@@ -18,18 +18,19 @@ export class MeleeRangedControl extends Phaser.GameObjects.Container {
         let attposx:number = 2;
         let defposx:number = 100;
 
+
         let boxwidth = 160;
         let boxwheight = 50;
 
-        this.meleeButton = gs.add.image(0,20, 'buttonback').setOrigin(0).setInteractive();
-        this.rangedButton = gs.add.image(0,80, 'buttonback').setOrigin(0).setInteractive();
+        this.meleeButton = gs.add.image(0,20, 'buttonback').setOrigin(0);
+        this.rangedButton = gs.add.image(0,80, 'buttonback').setOrigin(0);
         this.add(this.meleeButton);
         this.add(this.rangedButton);
 
         this.setPosition(20,100);
         gs.add.existing(this);
         gs.HudLayer.add(this);
-        this.add(gs.add.bitmapText(0,0, '8px', 'Choose Melee or Ranged' ));
+        this.add(gs.add.bitmapText(0,0, '8px', 'Attacker' ));
         this.melee = gs.add.graphics({
             x:0,
             y:20

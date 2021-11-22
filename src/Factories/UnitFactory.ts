@@ -12,7 +12,7 @@ export class UnitFactory {
         switch (u) {
             case UnitTypes.ant:
                 unit.Name = 'Ant';
-                unit.MaxHP = unit.CurrentHP = 5;
+                unit.MaxHP = unit.CurrentHP = 35;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 5;
@@ -27,7 +27,7 @@ export class UnitFactory {
                 break;
             case UnitTypes.bug:
                 unit.Name = 'Bug';
-                unit.MaxHP = unit.CurrentHP = 5;
+                unit.MaxHP = unit.CurrentHP = 35;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 5;

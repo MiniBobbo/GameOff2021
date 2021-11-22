@@ -1,5 +1,6 @@
 import { MeleeRangedControl } from "../../Controls/MeleeRangedControl";
 import { SceneEvents } from "../../scene/GameScene";
+import { UnitSpriteEvents } from "../../StrategyScene/UnitSprite";
 import { State } from "../State";
 import { StateTypes } from "../StateManager";
 
@@ -11,12 +12,13 @@ export class ChooseMeleeRangedState extends State {
         this.gs.events.on(SceneEvents.ChooseMeleeAttack, () =>{
             console.log('Selected Melee');
             this.m.ChangeState(StateTypes.Wait);
+            this.m.PrimaryUnit.emit(UnitSpriteEvents.InteractComplete);
         });
         this.gs.events.on(SceneEvents.ChooseRangedAttack, () =>{
             console.log('Selected Ranged');
             this.m.ChangeState(StateTypes.Wait);
+            this.m.PrimaryUnit.emit(UnitSpriteEvents.InteractComplete);
         });
-        
     }
 
     LeaveState() {

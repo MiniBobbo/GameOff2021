@@ -16,6 +16,10 @@ export class BattleScene extends Phaser.GameObjects.Container {
     private Defender:Unit;
     private attackersTurn:boolean = true;
 
+    private currentAttacker:BattleSprite;
+    private currentDefender:BattleSprite;
+
+
     //Holds the result of the attack that will be resolved at the appropriate time of the animation.
     private result: {hit:boolean, damage:number};
 
@@ -90,22 +94,20 @@ export class BattleScene extends Phaser.GameObjects.Container {
             this.gs.SM.ChangeState(StateTypes.AttackResult, {attacker:this.Attacker, defender:this.Defender});
             // s.events.emit(SceneEvents.Finished);
         } else {
-            let currentAttacker:BattleSprite;
-            let currentDefender:BattleSprite;
             if(this.attackersTurn) {
-                currentAttacker = this.AttackerSprite;
-                currentDefender = this.DefenderSprite;
+                this.currentAttacker = this.AttackerSprite;
+                this.currentDefender = this.DefenderSprite;
             }
             else {
-                currentAttacker = this.DefenderSprite;
-                currentDefender = this.AttackerSprite;
+                this.currentAttacker = this.DefenderSprite;
+                this.currentDefender = this.AttackerSprite;
             }
 
-            if(currentAttacker.u.CurrentAttacks > 0) {
+            if(this.currentAttacker.u.CurrentAttacks > 0) {
                 // this.attackersTurn = !this.attackersTurn;
-                currentAttacker.u.CurrentAttacks--;
-                this.result = this.GetAttackResult(currentAttacker, currentDefender, this.battleType);
-                currentAttacker.s.emit('attack', { currentDefender, type:this.battleType });
+                this.currentAttacker.u.CurrentAttacks--;
+                this.result = this.GetAttackResult(this.currentAttacker, this.currentDefender, this.battleType);
+                this.currentAttacker.s.emit('attack', {type:this.battleType });
             }
             this.attackersTurn = !this.attackersTurn;
         }
@@ -131,14 +133,14 @@ export class BattleScene extends Phaser.GameObjects.Container {
     }
 
     ResolveAttack() {
-        console.log(`${this.AttackerSprite.u.Name}, ${this.result.hit} Damage: ${this.result.damage}`);
+        console.log(`${this.currentAttacker.u.Name} attacks ${this.currentDefender.u.Name}, ${this.result.hit} Damage: ${this.result.damage}`);
         //Do damage to the defending unit if needed.
         if(this.result.hit) {
-            this.DefenderSprite.u.Damage(this.result.damage);
-            if(this.DefenderSprite.u.Status == UnitStatus.Dead)
-                this.DefenderSprite.PlayAnimation('died');
+            this.currentDefender.u.Damage(this.result.damage);
+            if(this.currentDefender.u.Status == UnitStatus.Dead)
+                this.currentDefender.PlayAnimation('died');
             else 
-                this.DefenderSprite.PlayAnimation('hit');
+                this.currentDefender.PlayAnimation('hit');
         }
         this.gs.time.addEvent({
             delay:500, 

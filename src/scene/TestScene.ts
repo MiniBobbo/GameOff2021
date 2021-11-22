@@ -9,7 +9,7 @@ import { UnitSprite } from "../StrategyScene/UnitSprite";
 import { GameScene, SceneEvents } from "./GameScene";
 
 export class TestScene extends GameScene {
-    t:Phaser.GameObjects.Text;
+    t:Phaser.GameObjects.BitmapText;
 
     create() {
         super.create();
@@ -19,7 +19,7 @@ export class TestScene extends GameScene {
         this.CreatePlayers();
 
 
-        this.t = this.add.text(0,0,'').setScrollFactor(0,0).setDepth(500);
+        this.t = this.add.bitmapText(100,0,'8px', '').setScale(2).setScrollFactor(0,0).setDepth(500).setTint(0x000000);
         // let us = new UnitSprite(this);
 
         let u = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
@@ -56,7 +56,7 @@ export class TestScene extends GameScene {
 
     }
 
-    update(time:number, dt:number) {
+    // update(time:number, dt:number) {
 
-    }
+    // }
 }

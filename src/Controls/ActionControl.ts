@@ -51,6 +51,10 @@ export class ActionControl extends Phaser.GameObjects.Container {
         this.MoveAction.removeListener('pointerout');
         this.MoveAction.removeListener('pointerdown');
         this.MoveAction.setTint(0xffffff);
+        this.AttackAction.removeListener('pointerover');
+        this.AttackAction.removeListener('pointerout');
+        this.AttackAction.removeListener('pointerdown');
+        this.AttackAction.setTint(0xffffff);
     this.setPosition(-1000,-1000);
     }
 }

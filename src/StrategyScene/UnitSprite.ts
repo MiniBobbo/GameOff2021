@@ -31,6 +31,10 @@ export class UnitSprite extends Phaser.GameObjects.Container {
         this.s.alpha = .7;
     }
 
+    HasRemainingActions():boolean {
+        return this.MoveAction || this.InteractAction;
+    }
+
     MoveComplete() {
         this.MoveAction = false;
 

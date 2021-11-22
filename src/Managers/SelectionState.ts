@@ -6,7 +6,7 @@ import { StateTypes } from "./StateManager";
 export class SelectionState extends State {
     EnterState() {
         this.gs.events.on(SceneEvents.Clicked, (bl:BoardLocation) => { 
-            if(bl.UnitSprite != null && bl.UnitSprite.u.ControllingPlayer == this.gs.CurrentPlayer) {
+            if(bl.UnitSprite != null && bl.UnitSprite.u.ControllingPlayer == this.gs.CurrentPlayer && bl.UnitSprite.HasRemainingActions()) {
                 let s = bl.UnitSprite;
                 this.m.PrimaryUnit = bl.UnitSprite;
                 this.gs.cameras.main.pan(bl.x, bl.y, 300);
