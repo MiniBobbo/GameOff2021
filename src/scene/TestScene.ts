@@ -19,7 +19,7 @@ export class TestScene extends GameScene {
         this.CreatePlayers();
 
 
-        this.t = this.add.bitmapText(100,0,'6px', '').setScrollFactor(0,0).setDepth(500).setDropShadow(1,1,0,1);
+        this.t = this.add.bitmapText(80,230,'6px', '').setScrollFactor(0,0).setDepth(500).setDropShadow(1,1,0,1);
         // let us = new UnitSprite(this);
 
         let u = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
@@ -37,19 +37,13 @@ export class TestScene extends GameScene {
 
         this.events.on(SceneEvents.ChangeState, (s:StateTypes) => { this.t.text = `State: ${StateTypes[s]}`});
 
-        // this.scene.launch('battle', {attacker:u, defender:u2});
-
-        // this.events.on(SceneEvents.Debug, (message:string) => { 
-        //     this.t.text = message; 
-        //     this.next = true;}, 
-        //     this);
-
+        this.StartPlayersTurn(this.Players[0]);
     }
 
     CreatePlayers() {
         //Create players.
-        this.AddPlayer('Good Team', 0xff00ff);
-        this.AddPlayer('Bad Team', 0xff0000);
+        this.AddPlayer('Good Team', 0xff0000);
+        this.AddPlayer('Bad Team', 0x3333ff);
         this.CurrentPlayer = this.Players[0];
 
 

@@ -5,4 +5,8 @@ export class Player {
     TeamName:string;
     TeamColor:number;
 
+    MaxMP:number = 100;
+    CurrentMP:number = 100;
+    RefreshMP:number = 20;
+
 }

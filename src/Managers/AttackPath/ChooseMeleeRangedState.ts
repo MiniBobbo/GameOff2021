@@ -24,6 +24,8 @@ export class ChooseMeleeRangedState extends State {
     LeaveState() {
         this.control.destroy();
         this.gs.events.removeListener(SceneEvents.Clicked);
+        this.gs.SecondaryUnitSatus.setVisible(false);
+        this.gs.PrimaryUnitSatus.setVisible(false);
         // this.gs.events.removeListener(SceneEvents.ChooseMeleeAttack);
         // this.gs.events.removeListener(SceneEvents.ChooseRangedAttack);
     }

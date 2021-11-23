@@ -80,7 +80,7 @@ export enum UnitStatus {
 }
 
 export enum MovementTypes {
-    Ground,
-    Flight
+    Ground = 'Ground',
+    Flight = 'Flying'
 }
 

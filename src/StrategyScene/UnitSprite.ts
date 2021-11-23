@@ -4,6 +4,7 @@ import { GameScene } from "../scene/GameScene";
 
 export class UnitSprite extends Phaser.GameObjects.Container {
     s:Phaser.GameObjects.Sprite;
+    t:Phaser.GameObjects.Sprite;
     u:Unit;
     xx:number;
     yy:number;
@@ -15,7 +16,9 @@ export class UnitSprite extends Phaser.GameObjects.Container {
         gs.add.existing(this);
         gs.UnitLayer.add(this);
         this.s = gs.add.sprite(0,0, 'atlas').setOrigin(.5,1);
+        this.t = gs.add.sprite(-1,3, 'atlas', 'boardsprites_team_0').setOrigin(.5,1);
         this.add(this.s); 
+        this.add(this.t);
         this.MoveAction = true;
         this.InteractAction = true;
         
@@ -52,6 +55,7 @@ export class UnitSprite extends Phaser.GameObjects.Container {
         this.u = u;
         //TODO : Change the sprite to the correct frame when we know the unit type.
         this.s.setFrame(`boardsprites_${this.u.Type}_0`);
+        this.t.setTint(this.u.ControllingPlayer.TeamColor);
     }
 
     Destroy() {

@@ -7,6 +7,7 @@ export class BoardLocation {
     b:Board;
     type:LocationTypes;
     s:Phaser.GameObjects.Sprite;
+    h:Phaser.GameObjects.Sprite;
     x:number;
     xx:number;
     y:number;
@@ -18,6 +19,7 @@ export class BoardLocation {
     constructor(b:Board, xx:number, yy:number, type:LocationTypes = LocationTypes.Grass) {
         this.b = b;
         this.s = b.gs.add.sprite(C.LocationWidth * xx, C.LocationHeight * yy, 'atlas').setDepth(yy);
+        this.h = b.gs.add.sprite(C.LocationWidth * xx, C.LocationHeight * yy - 6, 'atlas', 'boardtiles_highlight_0').setDepth(yy+.5).setVisible(false).setAlpha(.5);
         if(type == LocationTypes.Edge) 
             this.s.alpha = 0;
         this.SetFrame(xx,yy, type);
@@ -36,8 +38,8 @@ export class BoardLocation {
         this.s.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {b.gs.events.emit(SceneEvents.Clicked, this);
         e.stopPropagation();});
         this.s.on('destroy', this.Destroy, this);
-        this.s.on(BoardLocationEvents.Highlight, (color:number)=>{this.highlighted = true; this.s.setTint(color)}, this);
-        this.b.gs.events.on(SceneEvents.ClearHighlights, () => {this.highlighted = false; this.s.setTint(0xffffff);});
+        this.s.on(BoardLocationEvents.Highlight, (color:number)=>{this.highlighted = true; this.h.setTint(color).setVisible(true)}, this);
+        this.b.gs.events.on(SceneEvents.ClearHighlights, () => {this.highlighted = false; this.h.setVisible(false)});
 
     }
     SetFrame(xx: number, yy: number, type: LocationTypes) {

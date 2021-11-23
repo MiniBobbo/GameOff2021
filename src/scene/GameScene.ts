@@ -23,6 +23,9 @@ export class GameScene extends Phaser.Scene {
     Actions:ActionControl;
     b:Board;
     bs:BattleScene;
+    header:Phaser.GameObjects.Image;
+    headerName:Phaser.GameObjects.BitmapText;
+    headerMP:Phaser.GameObjects.BitmapText;
 
     kUP:Phaser.Input.Keyboard.Key;
     kDOWN:Phaser.Input.Keyboard.Key;
@@ -47,13 +50,8 @@ export class GameScene extends Phaser.Scene {
         this.HudLayer = this.add.layer().setDepth(3);
         this.SM = new StateManager(this);
 
-        this.PrimaryUnitSatus = new UnitStatus(this, 2, 0).setVisible(false).setScrollFactor(0);
-        this.SecondaryUnitSatus = new UnitStatus(this, 200, 0).setVisible(false).setScrollFactor(0);
-        this.HudLayer.add(this.PrimaryUnitSatus);
-        this.HudLayer.add(this.SecondaryUnitSatus);
-        this.Actions = new ActionControl(this);
-        this.HudLayer.add(this.Actions);
-        this.HudLayer.add(new EndTurnButton(this).t);
+
+        this.CreateHud();
 
         this.bs = new BattleScene(this);
 
@@ -69,6 +67,25 @@ export class GameScene extends Phaser.Scene {
         this.kLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.kRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     
+
+    }
+
+    private CreateHud() {
+        this.PrimaryUnitSatus = new UnitStatus(this, 2, 0).setVisible(false).setScrollFactor(0);
+        this.SecondaryUnitSatus = new UnitStatus(this, 200, 0).setVisible(false).setScrollFactor(0);
+
+        this.header = this.add.image(128, 6, 'atlas', 'PlayerHeader').setScrollFactor(0);
+        this.headerName = this.add.bitmapText(72,2,'8px','').setScrollFactor(0);
+        this.headerMP = this.add.bitmapText(122,2,'8px','').setScrollFactor(0);
+        this.HudLayer.add(this.header);
+        this.HudLayer.add(this.headerName);
+        this.HudLayer.add(this.headerMP);
+        this.HudLayer.add(this.PrimaryUnitSatus);
+        this.HudLayer.add(this.SecondaryUnitSatus);
+
+        this.Actions = new ActionControl(this);
+        this.HudLayer.add(this.Actions);
+        this.HudLayer.add(new EndTurnButton(this).t);
     }
 
     update(time:number, dt:number) {
@@ -135,12 +152,23 @@ export class GameScene extends Phaser.Scene {
         
     }
 
+    UpdateMP(newValue:number) {
+        this.CurrentPlayer.CurrentMP = Phaser.Math.Clamp(newValue, 0, this.CurrentPlayer.MaxMP);
+        this.headerMP.setText(`MP : ${this.CurrentPlayer.CurrentMP} / ${this.CurrentPlayer.MaxMP}`);
+    }
+
     AddPlayer(TeamName:string, TeamColor:number) {
         let p = new Player();
         p.ID = this.Players.length;
         p.TeamName = TeamName;
         p.TeamColor = TeamColor;
         this.Players.push(p);
+    }
+
+    StartPlayersTurn(newPlayer:Player) {
+        this.CurrentPlayer = newPlayer;
+        this.headerName.setText(this.CurrentPlayer.TeamName).setTint(this.CurrentPlayer.TeamColor);
+        this.UpdateMP(this.CurrentPlayer.CurrentMP + this.CurrentPlayer.RefreshMP);
     }
 }
 

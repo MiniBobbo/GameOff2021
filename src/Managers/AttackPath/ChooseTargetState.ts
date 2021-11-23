@@ -17,7 +17,7 @@ export class ChooseTargetState extends State {
             for(let y = 1; y < board.Height + 1; y++) {
                 if(board.floodFillLocations[x][y] >=0) {
                     //These locations should be highlighted...
-                    if(board.locations[x][y].UnitSprite != null)
+                    if(board.locations[x][y].UnitSprite != null&& board.locations[x][y].UnitSprite.u.ControllingPlayer != this.gs.CurrentPlayer)
                         board.locations[x][y].s.emit(BoardLocationEvents.Highlight, C.BLUE_HIGHLIGHT);
                     // else
                     // board.locations[x][y].s.emit(BoardLocationEvents.Highlight, C.BLUE_HIGHLIGHT);
