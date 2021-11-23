@@ -1,5 +1,6 @@
 import { C } from "../C";
 import { UnitTypes } from "../Entity/Unit";
+import { UnitFactory } from "../Factories/UnitFactory";
 import { SceneEvents } from "../scene/GameScene";
 import { BoardLocation, BoardLocationEvents } from "../StrategyScene/BoardLocation";
 import { State } from "./State";
@@ -36,9 +37,9 @@ export class ChooseSummonLocation extends State {
     clicked(location:BoardLocation) {
         if(location.highlighted) {
             let board = this.m.gs.b;
-            // let s = board.CreateUnit(UnitFactory.CreateUnit(this.selectedType, this.gs.CurrentPlayer), location.xx, location.yy);
-            // s.InteractComplete();
-            // s.MoveComplete();
+            let s = board.CreateUnit(UnitFactory.CreateUnit(this.selectedType, this.gs.CurrentPlayer), location.xx, location.yy);
+            s.InteractComplete();
+            s.MoveComplete();
             // board.MoveUnit(this.m.PrimaryUnit, location.xx, location.yy);
             // this.m.PrimaryUnit.emit(UnitSpriteEvents.MoveComplete);
         }

@@ -1,7 +1,6 @@
 import { Attack, AttackTypes } from "../Entity/Attack";
 import { Player } from "../Entity/Player";
 import { MovementTypes, Unit, UnitTypes } from "../Entity/Unit";
-import { RoachKing } from "./Units/UnitRoachKing";
 
 export class UnitFactory {
     static CreateUnit(u:UnitTypes, p:Player):Unit {
@@ -33,13 +32,12 @@ export class UnitFactory {
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 5;
-                let a = new Attack();
-                a.Name = 'Hittem';
-                a.BaseAccuracy = .5;
-                a.Damage = 5;
-                a.Number = 2;
-                a.Type = AttackTypes.Physical;
-                unit.MeleeAttack = a;
+                melee.Name = 'Hittem';
+                melee.BaseAccuracy = .5;
+                melee.Damage = 5;
+                melee.Number = 2;
+                melee.Type = AttackTypes.Physical;
+                unit.MeleeAttack = melee;
                 unit.SummonCost = 25;
                 break;
             case UnitTypes.fly:
@@ -58,7 +56,30 @@ export class UnitFactory {
                 unit.SummonCost = 20;
                 break;
             case UnitTypes.roachking:
-                unit = new RoachKing();
+                // unit = new RoachKing();
+                unit.MaxHP = unit.CurrentHP = 80;
+                unit.Armor = 4;
+                unit.MagicResist = 4;
+                unit.Movement = 3;
+                unit.MovementType = MovementTypes.Ground;
+                melee.Name = 'Bite';
+                melee.BaseAccuracy = .5;
+                melee.Damage = 2;
+                melee.Number = 2;
+                melee.Type = AttackTypes.Physical;
+                unit.MeleeAttack = melee;
+                let r = new Attack();
+                r.Name = 'Bite';
+                r.BaseAccuracy = .5;
+                r.Damage = 2;
+                r.Number = 2;
+                r.Type = AttackTypes.Physical;
+                unit.RangedAttack = r;
+        
+                unit.Summoner = true;
+                unit.SummonList.push(UnitTypes.ant);
+                unit.SummonList.push(UnitTypes.fly);
+        
             break;
             default:
                 break;

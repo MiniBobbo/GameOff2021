@@ -1,5 +1,5 @@
 import { Attack, AttackTypes } from "../../Entity/Attack";
-import { MovementTypes, Unit } from "../../Entity/Unit";
+import { MovementTypes, Unit, UnitTypes } from "../../Entity/Unit";
 
 export class RoachKing extends Unit {
     constructor() {
@@ -25,8 +25,8 @@ export class RoachKing extends Unit {
         this.RangedAttack = r;
 
         this.Summoner = true;
-        // this.SummonList.push(UnitTypes.ant);
-        // this.SummonList.push(UnitTypes.fly);
+        this.SummonList.push(UnitTypes.ant);
+        this.SummonList.push(UnitTypes.fly);
 
     }
 }
