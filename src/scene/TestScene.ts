@@ -26,6 +26,7 @@ export class TestScene extends GameScene {
         let u2 = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
         this.b.CreateUnit(u, 1,1);
         this.b.CreateUnit(u2, 5,6);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.roachking, this.CurrentPlayer), 2,2);
         
         this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.fly, this.Players[1]), 7,7);
         this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.fly, this.Players[1]), 6,6);

@@ -1,22 +1,38 @@
 import { Attack, AttackTypes } from "../Entity/Attack";
 import { Player } from "../Entity/Player";
-import { Unit, UnitTypes } from "../Entity/Unit";
-import { GameScene } from "../scene/GameScene";
-import { UnitSprite } from "../StrategyScene/UnitSprite";
+import { MovementTypes, Unit, UnitTypes } from "../Entity/Unit";
+import { RoachKing } from "./Units/UnitRoachKing";
 
 export class UnitFactory {
     static CreateUnit(u:UnitTypes, p:Player):Unit {
         let unit:Unit = new Unit();
-        unit.Type = u;
-        unit.ControllingPlayer = p;
+        let melee = new Attack();
+        let ranged = new Attack();
+
         switch (u) {
+            case UnitTypes.queenbee:
+                unit.Name = 'Queen Bee';
+                unit.MaxHP = unit.CurrentHP = 100;
+                unit.Armor = 3;
+                unit.MagicResist = 5;
+                unit.Movement = 3;
+                unit.MovementType = MovementTypes.Flight;
+                melee.Name = 'Strike';
+                melee.BaseAccuracy = .4;
+                melee.Damage = 4;
+                melee.Number = 2;
+                melee.Type = AttackTypes.Physical;
+                unit.MeleeAttack = melee;
+                unit.Summoner = true;
+                unit.SummonList.push(UnitTypes.ant);
+                unit.SummonList.push(UnitTypes.fly);
+            break;
             case UnitTypes.ant:
                 unit.Name = 'Ant';
                 unit.MaxHP = unit.CurrentHP = 35;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 5;
-                unit.Skills = [];
                 let a = new Attack();
                 a.Name = 'Hittem';
                 a.BaseAccuracy = .5;
@@ -24,6 +40,7 @@ export class UnitFactory {
                 a.Number = 2;
                 a.Type = AttackTypes.Physical;
                 unit.MeleeAttack = a;
+                unit.SummonCost = 25;
                 break;
             case UnitTypes.fly:
                 unit.Name = 'Fly';
@@ -31,7 +48,6 @@ export class UnitFactory {
                 unit.Armor = 1;
                 unit.MagicResist = 1;
                 unit.Movement = 6;
-                unit.Skills = [];
                 let a2 = new Attack();
                 a2.Name = 'Stab';
                 a2.BaseAccuracy = .7;
@@ -39,10 +55,17 @@ export class UnitFactory {
                 a2.Number = 2;
                 a2.Type = AttackTypes.Physical;
                 unit.MeleeAttack = a2;
+                unit.SummonCost = 20;
                 break;
+            case UnitTypes.roachking:
+                unit = new RoachKing();
+            break;
             default:
                 break;
         }
+        unit.Type = u;
+        unit.ControllingPlayer = p;
+
         return unit;
     }
 

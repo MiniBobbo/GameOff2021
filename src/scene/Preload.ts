@@ -79,7 +79,7 @@ export class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        this.anims.create({ key: 'ant_idle', frameRate: 60, frames: this.anims.generateFrameNames('atlas', { prefix: 'ant_stand_', end: 0}), repeat: 0 });
+        // this.anims.create({ key: 'ant_idle', frameRate: 60, frames: this.anims.generateFrameNames('atlas', { prefix: 'ant_stand_', end: 0}), repeat: 0 });
 
     }
 }

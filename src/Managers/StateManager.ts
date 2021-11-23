@@ -6,6 +6,8 @@ import { ChooseMeleeRangedState } from "./AttackPath/ChooseMeleeRangedState";
 import { ChooseTargetState } from "./AttackPath/ChooseTargetState";
 import { ChooseActionState } from "./ChooseActionState";
 import { ChooseMoveLocation } from "./ChooseMoveLocation";
+import { ChooseSummonCreature } from "./ChooseSummonCreature";
+import { ChooseSummonLocation } from "./ChooseSummonLocation";
 import { SelectionState } from "./SelectionState";
 import { State } from "./State";
 import { WaitState } from "./WaitState";
@@ -28,6 +30,8 @@ export class StateManager {
         this.States.set(StateTypes.ChooseAttackTarget, new ChooseTargetState(gs, this));
         this.States.set(StateTypes.ChooseMeleeOrRanged, new ChooseMeleeRangedState(gs, this));
         this.States.set(StateTypes.AttackResult, new AttackResulsState(gs, this));
+        this.States.set(StateTypes.Summon, new ChooseSummonCreature(gs, this));
+        this.States.set(StateTypes.ChooseSummonLocation, new ChooseSummonLocation(gs, this));
         this.ChangeState(StateTypes.Wait);
     }
 
@@ -48,6 +52,7 @@ export enum StateTypes {
     UnitSelected,
     EndTurn,
     Summon,
+    ChooseSummonLocation,
     ChooseAction,
     ChooseMoveLocation,
     ChooseAttackTarget,

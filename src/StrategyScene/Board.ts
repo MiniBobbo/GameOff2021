@@ -37,7 +37,7 @@ export class Board {
         this.gs.events.removeListener(BoardEvents.Create, this.CreateUnit, this);
     }
 
-    CreateUnit(u:Unit, xx:number, yy:number) {
+    CreateUnit(u:Unit, xx:number, yy:number):UnitSprite {
         let s = new UnitSprite(this.gs);
         s.AddUnit(u);
         s.x = C.TtW(xx);
@@ -47,6 +47,7 @@ export class Board {
         // s.s.setTint(s.u.ControllingPlayer.TeamColor);
         this.locations[xx][yy].UnitSprite = s; 
         this.AllUnitSprites.push(s);
+        return s;
     }
 
     MoveUnit(unit:UnitSprite, xx:number, yy:number) {

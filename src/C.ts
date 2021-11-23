@@ -13,4 +13,6 @@ export class C {
     static TtW(tile:number):number {
         return tile * C.LocationHeight;
     }
+
+    
 }

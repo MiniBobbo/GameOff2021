@@ -9,6 +9,7 @@ import { UnitSpriteEvents } from '../StrategyScene/UnitSprite';
 import { Unit } from '../Entity/Unit';
 import { BattleScene, BattleSceneEvents, BattleType } from './BattleScene';
 import { C } from '../C';
+import { SummonControl } from '../Controls/SummonControl';
 
 export class GameScene extends Phaser.Scene {
     Players:Array<Player>;
@@ -21,6 +22,7 @@ export class GameScene extends Phaser.Scene {
     PrimaryUnitSatus:UnitStatus;
     SecondaryUnitSatus:UnitStatus;
     Actions:ActionControl;
+    Summons:SummonControl;
     b:Board;
     bs:BattleScene;
     header:Phaser.GameObjects.Image;
@@ -84,7 +86,9 @@ export class GameScene extends Phaser.Scene {
         this.HudLayer.add(this.SecondaryUnitSatus);
 
         this.Actions = new ActionControl(this);
+        this.Summons = new SummonControl(this);
         this.HudLayer.add(this.Actions);
+        this.HudLayer.add(this.Summons);
         this.HudLayer.add(new EndTurnButton(this).t);
     }
 
@@ -188,5 +192,6 @@ export enum SceneEvents {
     ChooseRangedAttack = 'chooseranged',
     MoveCamera = 'movecamera',
     FreezeCamera = 'freezecamera',
+    SummonCreature = 'summon'
     
 }

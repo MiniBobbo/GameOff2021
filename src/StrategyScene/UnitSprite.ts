@@ -54,7 +54,11 @@ export class UnitSprite extends Phaser.GameObjects.Container {
     AddUnit(u:Unit) {
         this.u = u;
         //TODO : Change the sprite to the correct frame when we know the unit type.
-        this.s.setFrame(`boardsprites_${this.u.Type}_0`);
+        if(this.s.texture.has(`boardsprites_${this.u.Type}_0`))
+            this.s.setFrame(`boardsprites_${this.u.Type}_0`);
+        else 
+            this.s.setFrame(`boardsprites_ant_0`);
+
         this.t.setTint(this.u.ControllingPlayer.TeamColor);
     }
 

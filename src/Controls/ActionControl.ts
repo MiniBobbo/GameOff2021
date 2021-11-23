@@ -5,6 +5,7 @@ export class ActionControl extends Phaser.GameObjects.Container {
     gs:GameScene;
     MoveAction:Phaser.GameObjects.Image;
     AttackAction:Phaser.GameObjects.Image;
+    SummonAction:Phaser.GameObjects.Image;
     constructor(gs:GameScene) {
         super(gs);
         this.gs = gs;
@@ -16,6 +17,8 @@ export class ActionControl extends Phaser.GameObjects.Container {
         this.add(this.MoveAction);
         this.AttackAction = gs.add.sprite(20,-20, 'atlas', 'icons_sword_0').setInteractive();
         this.add(this.AttackAction);
+        this.SummonAction = gs.add.sprite(-20,20, 'atlas', 'icons_book_0').setInteractive();
+        this.add(this.SummonAction);
     }
 
     Activate(bl:BoardLocation) {
@@ -43,6 +46,14 @@ export class ActionControl extends Phaser.GameObjects.Container {
         } else {
             this.AttackAction.alpha = .5;
         }
+        if(bl.UnitSprite.u.Summoner) {
+            this.SummonAction.on('pointerover', () => {this.SummonAction.setTint(0xff0000);});
+            this.SummonAction.on('pointerout', () => {this.SummonAction.setTint(0xffffff);});
+            this.SummonAction.on('pointerdown', (p:any, x:any, y:any, e:Phaser.Types.Input.EventData) => {this.gs.events.emit(SceneEvents.ClickedAction, ActionTypes.Summon); e.stopPropagation();});
+            this.SummonAction.alpha = 1;
+        } else {
+            this.SummonAction.alpha = .5;
+        }
 
     }
 
@@ -55,6 +66,10 @@ export class ActionControl extends Phaser.GameObjects.Container {
         this.AttackAction.removeListener('pointerout');
         this.AttackAction.removeListener('pointerdown');
         this.AttackAction.setTint(0xffffff);
+        this.SummonAction.removeListener('pointerover');
+        this.SummonAction.removeListener('pointerout');
+        this.SummonAction.removeListener('pointerdown');
+        this.SummonAction.setTint(0xffffff);
     this.setPosition(-1000,-1000);
     }
 }
@@ -62,5 +77,6 @@ export class ActionControl extends Phaser.GameObjects.Container {
 export enum ActionTypes {
     Move = 'move',
     Cancel = 'cancel',
-    Attack = 'attack'
+    Attack = 'attack',
+    Summon = 'summon'
 }

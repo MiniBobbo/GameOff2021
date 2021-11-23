@@ -10,8 +10,7 @@ export class SelectionState extends State {
                 let s = bl.UnitSprite;
                 this.m.PrimaryUnit = bl.UnitSprite;
                 this.gs.cameras.main.pan(bl.x, bl.y, 300);
-                this.m.ChangeState(StateTypes.ChooseAction);
-                this.gs.Actions.Activate(bl);
+                this.m.ChangeState(StateTypes.ChooseAction, bl);
             }
         }, this);
 

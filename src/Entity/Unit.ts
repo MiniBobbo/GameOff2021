@@ -26,6 +26,9 @@ export class Unit {
     MeleeAttack:Attack;
     RangedAttack:Attack;
     ControllingPlayer:Player;
+    Summoner:boolean = false;
+    SummonList:Array<UnitTypes>;
+    SummonCost:number = 10;
 
     CurrentAttacks:number;
 
@@ -36,6 +39,8 @@ export class Unit {
         this.Skills = [];
         this.Status = UnitStatus.Alive; 
         this.ID = C.ID++;
+
+        this.SummonList = [];
 
         let m = new Attack();
         m.Name = 'None';
@@ -71,7 +76,9 @@ export class Unit {
 
 export enum UnitTypes {
     ant = 'ant',
-    fly = 'fly'
+    fly = 'fly',
+    queenbee = 'queenbee',
+    roachking = 'roachking'
 }
 
 export enum UnitStatus {

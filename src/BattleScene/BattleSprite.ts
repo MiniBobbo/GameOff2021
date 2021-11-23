@@ -9,7 +9,7 @@ export class BattleSprite {
 
     constructor(bs:GameScene) {
         this.bs = bs;
-        this.s = bs.add.sprite(200,200, 'atlas', 'ant_stand_0');
+        this.s = bs.add.sprite(200,200, 'atlas', '');
         this.s.on('attack', () => {
             //TODO: Run finished when the attack animation finishes.  Animations in general.
             this.bs.time.addEvent({
