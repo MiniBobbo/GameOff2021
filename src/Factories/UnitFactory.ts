@@ -25,17 +25,17 @@ export class UnitFactory {
                 a.Type = AttackTypes.Physical;
                 unit.MeleeAttack = a;
                 break;
-            case UnitTypes.bug:
-                unit.Name = 'Bug';
-                unit.MaxHP = unit.CurrentHP = 35;
+            case UnitTypes.fly:
+                unit.Name = 'Fly';
+                unit.MaxHP = unit.CurrentHP = 25;
                 unit.Armor = 1;
                 unit.MagicResist = 1;
-                unit.Movement = 5;
+                unit.Movement = 6;
                 unit.Skills = [];
                 let a2 = new Attack();
-                a2.Name = 'Hittem';
-                a2.BaseAccuracy = .5;
-                a2.Damage = 5;
+                a2.Name = 'Stab';
+                a2.BaseAccuracy = .7;
+                a2.Damage = 3;
                 a2.Number = 2;
                 a2.Type = AttackTypes.Physical;
                 unit.MeleeAttack = a2;

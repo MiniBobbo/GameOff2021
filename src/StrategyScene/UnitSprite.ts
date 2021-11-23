@@ -14,7 +14,7 @@ export class UnitSprite extends Phaser.GameObjects.Container {
         super(gs, -100,-100);
         gs.add.existing(this);
         gs.UnitLayer.add(this);
-        this.s = gs.add.sprite(0,0, 'unittemp').setOrigin(.5,1);
+        this.s = gs.add.sprite(0,0, 'atlas').setOrigin(.5,1);
         this.add(this.s); 
         this.MoveAction = true;
         this.InteractAction = true;
@@ -51,6 +51,7 @@ export class UnitSprite extends Phaser.GameObjects.Container {
     AddUnit(u:Unit) {
         this.u = u;
         //TODO : Change the sprite to the correct frame when we know the unit type.
+        this.s.setFrame(`boardsprites_${this.u.Type}_0`);
     }
 
     Destroy() {

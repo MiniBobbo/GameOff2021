@@ -70,8 +70,8 @@ export class Unit {
 }
 
 export enum UnitTypes {
-    ant,
-    bug
+    ant = 'ant',
+    fly = 'fly'
 }
 
 export enum UnitStatus {

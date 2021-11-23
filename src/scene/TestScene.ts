@@ -19,7 +19,7 @@ export class TestScene extends GameScene {
         this.CreatePlayers();
 
 
-        this.t = this.add.bitmapText(100,0,'8px', '').setScale(2).setScrollFactor(0,0).setDepth(500).setTint(0x000000);
+        this.t = this.add.bitmapText(100,0,'6px', '').setScrollFactor(0,0).setDepth(500).setDropShadow(1,1,0,1);
         // let us = new UnitSprite(this);
 
         let u = UnitFactory.CreateUnit(UnitTypes.ant, this.CurrentPlayer);
@@ -27,8 +27,8 @@ export class TestScene extends GameScene {
         this.b.CreateUnit(u, 1,1);
         this.b.CreateUnit(u2, 5,6);
         
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.bug, this.Players[1]), 7,7);
-        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.bug, this.Players[1]), 6,6);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.fly, this.Players[1]), 7,7);
+        this.b.CreateUnit(UnitFactory.CreateUnit(UnitTypes.fly, this.Players[1]), 6,6);
         this.time.addEvent({
             delay:500,
             callback:() => {this.events.emit(SceneEvents.Finished);},

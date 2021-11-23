@@ -1,3 +1,4 @@
+import { C } from "../../C";
 import { SceneEvents } from "../../scene/GameScene";
 import { BoardLocation, BoardLocationEvents } from "../../StrategyScene/BoardLocation";
 import { State } from "../State";
@@ -17,9 +18,9 @@ export class ChooseTargetState extends State {
                 if(board.floodFillLocations[x][y] >=0) {
                     //These locations should be highlighted...
                     if(board.locations[x][y].UnitSprite != null)
-                        board.locations[x][y].s.emit(BoardLocationEvents.Highlight, 0xff0000);
-                    else
-                    board.locations[x][y].s.emit(BoardLocationEvents.Highlight, 0x0000ff);
+                        board.locations[x][y].s.emit(BoardLocationEvents.Highlight, C.BLUE_HIGHLIGHT);
+                    // else
+                    // board.locations[x][y].s.emit(BoardLocationEvents.Highlight, C.BLUE_HIGHLIGHT);
                 }
             }
         }

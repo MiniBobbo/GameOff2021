@@ -3,8 +3,8 @@ import { BoardLocation } from "../StrategyScene/BoardLocation";
 
 export class ActionControl extends Phaser.GameObjects.Container {
     gs:GameScene;
-    MoveAction:Phaser.GameObjects.BitmapText;
-    AttackAction:Phaser.GameObjects.BitmapText;
+    MoveAction:Phaser.GameObjects.Image;
+    AttackAction:Phaser.GameObjects.Image;
     constructor(gs:GameScene) {
         super(gs);
         this.gs = gs;
@@ -12,21 +12,21 @@ export class ActionControl extends Phaser.GameObjects.Container {
         this.x = -1000;
         this.y = -1000;
 
-        this.MoveAction = gs.add.bitmapText(0,-45, '6px', 'Move').setInteractive();
+        this.MoveAction = gs.add.sprite(-20,-20, 'atlas', 'icons_boot_0').setInteractive();
         this.add(this.MoveAction);
-        this.AttackAction = gs.add.bitmapText(45,0, '6px', 'Attack').setInteractive();
+        this.AttackAction = gs.add.sprite(20,-20, 'atlas', 'icons_sword_0').setInteractive();
         this.add(this.AttackAction);
     }
 
     Activate(bl:BoardLocation) {
-        // this.setScale(.1);
-        // this.gs.tweens.add({
-        //     targets:this,
-        //     scaleX:1,
-        //     scaleY:1,
-        //     duration:100
-        // });
-        this.setPosition(bl.x-15, bl.y-20);
+        this.setScale(.1);
+        this.gs.tweens.add({
+            targets:this,
+            scaleX:1,
+            scaleY:1,
+            duration:100
+        });
+        this.setPosition(bl.x, bl.y-10);
         if(bl.UnitSprite.MoveAction) {
             this.MoveAction.on('pointerover', () => {this.MoveAction.setTint(0xff0000);});
             this.MoveAction.on('pointerout', () => {this.MoveAction.setTint(0xffffff);});

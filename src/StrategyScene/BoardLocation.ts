@@ -15,11 +15,13 @@ export class BoardLocation {
     UnitSprite:UnitSprite;
     highlighted:boolean = false;
 
-    constructor(b:Board, xx:number, yy:number, type:LocationTypes = LocationTypes.Land) {
+    constructor(b:Board, xx:number, yy:number, type:LocationTypes = LocationTypes.Grass) {
         this.b = b;
-        this.s = b.gs.add.sprite(C.LocationWidth * xx, C.LocationHeight * yy, 'tiletemp').setDepth(yy);
+        this.s = b.gs.add.sprite(C.LocationWidth * xx, C.LocationHeight * yy, 'atlas').setDepth(yy);
         if(type == LocationTypes.Edge) 
-            this.s.alpha = .5;
+            this.s.alpha = 0;
+        this.SetFrame(xx,yy, type);
+        
         this.s.setOrigin(.5,.8);
 
         this.xx = xx;
@@ -38,6 +40,15 @@ export class BoardLocation {
         this.b.gs.events.on(SceneEvents.ClearHighlights, () => {this.highlighted = false; this.s.setTint(0xffffff);});
 
     }
+    SetFrame(xx: number, yy: number, type: LocationTypes) {
+        let suffix = this.isEven(xx+yy)? 0:1;
+        this.s.setFrame(`boardtiles_${type}_${suffix}`);
+
+    }
+
+    isEven(n:number) {
+        return n % 2 == 0;
+     }
 
     Destroy() {
         this.s.removeAllListeners();

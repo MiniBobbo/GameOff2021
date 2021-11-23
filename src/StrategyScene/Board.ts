@@ -44,7 +44,7 @@ export class Board {
         s.y = C.TtW(yy);
         s.xx = xx;
         s.yy = yy;
-        s.s.setTint(s.u.ControllingPlayer.TeamColor);
+        // s.s.setTint(s.u.ControllingPlayer.TeamColor);
         this.locations[xx][yy].UnitSprite = s; 
         this.AllUnitSprites.push(s);
     }
@@ -89,7 +89,7 @@ export class Board {
                 let edge = false;
                 if(x==0||y==0||x==this.Height+1||y==this.Height+1)
                     edge = true;
-                let l = this.locations[x][y] = new BoardLocation(this, x,y,edge ? LocationTypes.Edge : LocationTypes.Land);
+                let l = this.locations[x][y] = new BoardLocation(this, x,y,edge ? LocationTypes.Edge : LocationTypes.Grass);
                 this.floodFillLocations[x][y] = edge?-99:0;
                 this.locationSprites.push(l.s);
                 this.AllLocations.push(l);
@@ -184,8 +184,8 @@ export class Board {
 }
 
 export enum LocationTypes {
-    Land,
-    Edge
+    Grass = 'grass',
+    Edge = 'edge'
 }
 
 export enum BoardEvents {
